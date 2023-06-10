@@ -29,7 +29,6 @@ public final class SpawnController {
         this.spawn=spawn;
         this.save();
     }
-
     public boolean isSpawnSet() {
         return this.getSpawn().isPresent();
     }

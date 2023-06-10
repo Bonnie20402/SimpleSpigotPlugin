@@ -21,7 +21,7 @@ public class SpawnCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        if(spawnController.getSpawn() == null) {
+        if(!spawnController.isSpawnSet()) {
             commandSender.sendMessage("The spawn is not defined yet.");
             return true;
         }

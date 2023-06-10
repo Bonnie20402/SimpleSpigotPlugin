@@ -101,7 +101,7 @@ public final class WarpController {
             }
         }
 
-        if(warps.isEmpty()) plugin.getLogger().info("Something told me to save warps, but are no warps to save.");
+        if(warps.isEmpty()) plugin.getLogger().info("Something told me to save warps, but there are no warps to save. Odd....");
         else plugin.getLogger().info("Saved "+ warps.size() + " warps!");
     }
 

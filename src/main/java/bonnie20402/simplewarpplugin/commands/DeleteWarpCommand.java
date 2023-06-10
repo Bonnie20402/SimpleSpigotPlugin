@@ -1,18 +1,12 @@
 package bonnie20402.simplewarpplugin.commands;
-
 import bonnie20402.simplewarpplugin.controllers.WarpController;
 import bonnie20402.simplewarpplugin.models.WarpModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
-
-
-
 public final class DeleteWarpCommand implements CommandExecutor {
     private final WarpController warpController;
-
     public DeleteWarpCommand(WarpController warpcontroller) {
         this.warpController=warpcontroller;
     }
