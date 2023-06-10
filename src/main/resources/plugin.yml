@@ -1,0 +1,11 @@
+name: SimpleWarpPlugin
+version: '${project.version}'
+main: bonnie20402.simplewarpplugin.SimpleWarpPlugin
+api-version: 1.19
+
+commands:
+  warp:
+    aliases: [warps]
+  createwarp:
+    aliases: [criarwarp,newwarp,setwarp]
+
