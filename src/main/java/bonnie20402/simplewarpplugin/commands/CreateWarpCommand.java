@@ -9,7 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CreateWarpCommand implements CommandExecutor {
+public final class CreateWarpCommand implements CommandExecutor {
     private final WarpController warpController;
     public CreateWarpCommand(WarpController warpController) {
         this.warpController=warpController;

@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import java.io.IOException;
 
-public class LocationAdapter extends TypeAdapter<Location> {
+public final class LocationAdapter extends TypeAdapter<Location> {
 
     @Override
     public void write(JsonWriter out, Location location) throws IOException {

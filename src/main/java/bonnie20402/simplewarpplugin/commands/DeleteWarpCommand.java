@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 
-public class DeleteWarpCommand implements CommandExecutor {
+public final class DeleteWarpCommand implements CommandExecutor {
     private final WarpController warpController;
 
     public DeleteWarpCommand(WarpController warpcontroller) {

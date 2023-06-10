@@ -16,7 +16,7 @@ public final class WarpController {
     private List<WarpModel> warps;
     private Plugin plugin;
 
-    private Gson gson;
+    private final Gson gson;
     public WarpController(List<WarpModel> warps, Plugin plugin) {
         this.warps=warps;
         this.plugin=plugin;
@@ -88,7 +88,7 @@ public final class WarpController {
         String path;
         File file;
         for(WarpModel warp : warps) {
-            path = plugin.getDataFolder() + File.separator + warp.getName() + ".json";
+            path = plugin.getDataFolder() + File.separator + "warps" + File.separator + warp.getName() + ".json";
             file = new File(path);
             if(file.isFile())file.delete();
             String warpSerialized = gson.toJson(warp);
@@ -106,7 +106,8 @@ public final class WarpController {
     }
 
     public void load() {
-        File folder = new File(plugin.getDataFolder().toString());
+        File folder = new File(plugin.getDataFolder().toString()+ File.separator + "warps" + File.separator);
+        if(!folder.exists())folder.mkdirs();
         File[] fileList = folder.listFiles();
         if (fileList != null) {
             for(File file : fileList) {

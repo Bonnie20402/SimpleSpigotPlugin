@@ -2,7 +2,7 @@ package bonnie20402.simplewarpplugin.models;
 
 import org.bukkit.Location;
 
-public class WarpModel {
+public final class WarpModel {
     private Location location;
     private String name;
 
