@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.List;
@@ -25,13 +26,25 @@ public final class WarpController {
         this.load();
     }
 
-    public void createWarp(WarpModel warp) {
+    public void createWarp(@NotNull WarpModel warp) {
         if(warps.contains(warp)) {
             throw new IllegalArgumentException("The warp " + warp.getName() + "already exists!");
         }
         warps.add(warp);
     }
-    public WarpModel findWarp(WarpModel warp) {
+    public void deleteWarp(@NotNull WarpModel warp) {
+        if(warp == null) throw new IllegalArgumentException("Tried to remove a warp, but got null!");
+        if(!warps.contains(warp)) throw new IllegalArgumentException("Tried to remove a warp that does NOT exist");
+        warps.remove(warp);
+        this.save();
+    }
+    public void updateWarp(@NotNull WarpModel warp) {
+        WarpModel warpToUpdate = this.findWarpByName(warp.getName());
+        if(warpToUpdate == null) throw new IllegalArgumentException("Tried to overwrite a warp that does not exist");
+        warpToUpdate.setLocation(warp.getLocation());
+        this.save();
+    }
+    public WarpModel findWarp(@NotNull WarpModel warp) {
         if(warps.contains(warp))return warp;
         return null;
     }
@@ -48,11 +61,25 @@ public final class WarpController {
         }
         return null;
     }
+
+
+    public int getWarpIndex(WarpModel warp) {
+        int size = warps.size();
+        WarpModel warpFor;
+        for(int i = 0;i<size;i++) {
+            warpFor = warps.get(i);
+            if(warp.getName().equalsIgnoreCase(warp.getName()))return i;
+        }
+        return -1;
+    }
     public List<WarpModel> getWarps() {
         return warps;
     }
     public void teleportToWarp(Entity entity, WarpModel warp) {
-        if(warp == null ) throw new IllegalArgumentException("Could not teleport to invalid warp");
+        if(warp == null )  {
+            plugin.getLogger().warning("Could not teleport to invalid warp object.");
+            throw new IllegalArgumentException("Could not teleport to invalid warp");
+        }
         entity.teleport(warp.getLocation());
     }
 
@@ -72,7 +99,9 @@ public final class WarpController {
                 e.printStackTrace();
             }
         }
-        plugin.getLogger().info("[SimpleWarp] Saved "+ warps.size() + " warps!");
+
+        if(warps.isEmpty()) plugin.getLogger().info("Something told me to save warps, but are no warps to save.");
+        else plugin.getLogger().info("Saved "+ warps.size() + " warps!");
     }
 
     public void load() {

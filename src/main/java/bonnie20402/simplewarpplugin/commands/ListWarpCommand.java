@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ListWarpCommand implements CommandExecutor {
 
-    WarpController warpController;
+    private final WarpController warpController;
 
     public ListWarpCommand(WarpController warpController) {
         this.warpController = warpController;

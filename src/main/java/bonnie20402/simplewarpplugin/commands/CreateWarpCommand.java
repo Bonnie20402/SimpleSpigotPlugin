@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class CreateWarpCommand implements CommandExecutor {
-    WarpController warpController;
+    private final WarpController warpController;
     public CreateWarpCommand(WarpController warpController) {
         this.warpController=warpController;
     }
@@ -24,11 +24,12 @@ public class CreateWarpCommand implements CommandExecutor {
             Player player = (Player) sender;
             WarpModel newWarp = new WarpModel(player.getLocation(),args[0]);
             if(warpController.findWarpByName(newWarp.getName()) != null )  {
-                player.sendMessage("That warp already exists.");
+                warpController.updateWarp(newWarp);
+                player.sendMessage("That warp already exists. It has been updated with your current location!");
             }
             else {
                 warpController.createWarp(newWarp);
-                player.sendMessage("Warp successfully created.");
+                player.sendMessage("Warp " +newWarp.getName()+ " successfully created.");
                 warpController.save();
             }
         }
