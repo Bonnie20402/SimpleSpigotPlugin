@@ -31,6 +31,7 @@ public final class WarpController {
             throw new IllegalArgumentException("The warp " + warp.getName() + "already exists!");
         }
         warps.add(warp);
+        this.save();
     }
     public void deleteWarp(@NotNull WarpModel warp) {
         if(warp == null) throw new IllegalArgumentException("Tried to remove a warp, but got null!");

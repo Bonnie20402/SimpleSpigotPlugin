@@ -30,7 +30,6 @@ public class CreateWarpCommand implements CommandExecutor {
             else {
                 warpController.createWarp(newWarp);
                 player.sendMessage("Warp " +newWarp.getName()+ " successfully created.");
-                warpController.save();
             }
         }
         return true;
