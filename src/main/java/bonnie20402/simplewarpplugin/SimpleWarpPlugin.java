@@ -6,9 +6,10 @@ import bonnie20402.simplewarpplugin.commands.warp.CreateWarpCommand;
 import bonnie20402.simplewarpplugin.commands.warp.DeleteSpawnCommand;
 import bonnie20402.simplewarpplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplewarpplugin.commands.warp.ListWarpCommand;
+import bonnie20402.simplewarpplugin.controllers.scoreboard.CoolScoreBoardController;
 import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
 import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
-import bonnie20402.simplewarpplugin.listeners.scoreboard.MainScoreboardListener;
+import bonnie20402.simplewarpplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplewarpplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplewarpplugin.models.SpawnModel;
 import bonnie20402.simplewarpplugin.models.WarpModel;
@@ -20,10 +21,13 @@ import java.util.ArrayList;
 public final class SimpleWarpPlugin extends JavaPlugin {
     WarpController warpController;
     SpawnController spawnController;
+    CoolScoreBoardController coolScoreBoardController;
+
     @Override
     public void onEnable() {
         warpController = new WarpController(new ArrayList<WarpModel>(),this);
         spawnController = new SpawnController(this, new SpawnModel());
+        coolScoreBoardController = new CoolScoreBoardController(this);
         if(!getDataFolder().exists())getDataFolder().mkdirs();
         Bukkit.getServer().getLogger().info("Simple warp plugin loaded!");
 
@@ -39,7 +43,7 @@ public final class SimpleWarpPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
 
         //Sb
-        Bukkit.getServer().getPluginManager().registerEvents(new MainScoreboardListener(this),this);
+        Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
     }
 
     @Override

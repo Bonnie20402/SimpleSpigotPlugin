@@ -1,40 +1,35 @@
 package bonnie20402.simplewarpplugin.controllers.scoreboard;
+
 import fr.mrmicky.fastboard.FastBoard;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-public abstract class BaseScoreboardController implements Listener {
-    private final FastBoard fastBoard;
-    protected final Plugin plugin;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-    public BaseScoreboardController(FastBoard fastBoard,Plugin plugin) {
-        this.fastBoard = fastBoard;
-        this.plugin=plugin;
+public abstract class BaseScoreboardController {
+    private final Map<UUID, FastBoard> boards = new HashMap<>();
+    private final Plugin plugin;
+
+    public BaseScoreboardController(Plugin plugin) {
+        this.plugin = plugin;
+        this.startBoards();
     }
 
-    public FastBoard getFastBoard() {
-        return fastBoard;
+    public Map<UUID, FastBoard> getBoards() {
+        return boards;
+    }
+
+    public void startBoards() {
+        plugin.getServer().getScheduler().runTaskTimer(plugin,() -> {
+            for(FastBoard board : boards.values()) {
+                updateBoard(board);
+            }
+        },5L,20L);
     }
 
     /*
-        Starts the board update timer.
+        Add content to the board here.
      */
-    public void startBoard() {
-        this.plugin.getServer().getScheduler().runTaskTimer(this.plugin, this::update, 5L, 20L);
-    }
-
-    /*
-        Update the lines based on your extension right here.
-     */
-    public abstract void update();
-
-    @EventHandler
-    private void onPlayerQuit(PlayerQuitEvent playerQuitEvent) {
-        if(this.getFastBoard() == null) return;
-        if(this.getFastBoard().getPlayer() == playerQuitEvent.getPlayer()) {
-            this.getFastBoard().delete();
-        }
-    }
+    public abstract void updateBoard(FastBoard board);
 }
