@@ -23,7 +23,7 @@ public final class CoolScoreboardListener implements Listener {
     private void onQuit(PlayerQuitEvent playerQuitEvent) {
         UUID uuid = playerQuitEvent.getPlayer().getUniqueId();
         Optional<FastBoard> board = Optional.
-                ofNullable(coolScoreBoardController.getBoards().get(uuid));
+                ofNullable(coolScoreBoardController.getBoard(uuid));
         if(board.isPresent()) {
             board.get().delete();
         }
@@ -32,6 +32,6 @@ public final class CoolScoreboardListener implements Listener {
     private void onJoin(PlayerJoinEvent playerJoinEvent) {
         Player player = playerJoinEvent.getPlayer();
         UUID uuid = playerJoinEvent.getPlayer().getUniqueId();
-        coolScoreBoardController.getBoards().put(uuid,new FastBoard(player));
+        coolScoreBoardController.createBoard(uuid,new FastBoard(player));
     }
 }

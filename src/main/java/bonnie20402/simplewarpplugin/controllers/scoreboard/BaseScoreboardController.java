@@ -16,8 +16,16 @@ public abstract class BaseScoreboardController {
         this.startBoards();
     }
 
-    public Map<UUID, FastBoard> getBoards() {
+    protected Map<UUID, FastBoard> getBoards() {
         return boards;
+    }
+
+    public FastBoard getBoard(final UUID uuid){
+        return this.boards.get(uuid);
+    }
+
+    public void createBoard(final UUID uuid, final FastBoard fastBoard) {
+        this.boards.put(uuid,fastBoard);
     }
 
     public void startBoards() {
