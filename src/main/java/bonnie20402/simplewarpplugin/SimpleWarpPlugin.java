@@ -8,6 +8,7 @@ import bonnie20402.simplewarpplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplewarpplugin.commands.warp.ListWarpCommand;
 import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
 import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
+import bonnie20402.simplewarpplugin.listeners.scoreboard.MainScoreboardListener;
 import bonnie20402.simplewarpplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplewarpplugin.models.SpawnModel;
 import bonnie20402.simplewarpplugin.models.WarpModel;
@@ -37,6 +38,8 @@ public final class SimpleWarpPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginCommand("deletespawn").setExecutor(new DeleteSpawnCommand(spawnController));
         Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
 
+        //Sb
+        Bukkit.getServer().getPluginManager().registerEvents(new MainScoreboardListener(this),this);
     }
 
     @Override
