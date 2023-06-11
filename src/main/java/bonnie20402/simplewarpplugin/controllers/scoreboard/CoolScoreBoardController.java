@@ -3,7 +3,7 @@ package bonnie20402.simplewarpplugin.controllers.scoreboard;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.plugin.Plugin;
 
-public class CoolScoreBoardController extends BaseScoreboardController {
+public final class CoolScoreBoardController extends BaseScoreboardController {
     public CoolScoreBoardController(Plugin plugin) {
         super(plugin);
     }

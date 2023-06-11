@@ -20,15 +20,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <executions>
@@ -46,8 +37,11 @@
                     <relocations>
                         <relocation>
                             <pattern>fr.mrmicky.fastboard</pattern>
-                            <!-- Replace 'com.yourpackage' with the package of your plugin ! -->
                             <shadedPattern>bonnie20402.simplewarpplugin.fastboard</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.triumphteam.gui</pattern>
+                            <shadedPattern>bonnie20402.simplewarpplugin.gui</shadedPattern> <!-- Replace package here here -->
                         </relocation>
                     </relocations>
                 </configuration>
@@ -89,6 +83,11 @@
             <groupId>fr.mrmicky</groupId>
             <artifactId>fastboard</artifactId>
             <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.triumphteam</groupId>
+            <artifactId>triumph-gui</artifactId>
+            <version>3.1.2</version>
         </dependency>
     </dependencies>
 </project>

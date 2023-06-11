@@ -1,5 +1,6 @@
 package bonnie20402.simplewarpplugin;
 
+import bonnie20402.simplewarpplugin.commands.gui.GuiTestCommand;
 import bonnie20402.simplewarpplugin.commands.spawn.SetSpawnCommand;
 import bonnie20402.simplewarpplugin.commands.spawn.SpawnCommand;
 import bonnie20402.simplewarpplugin.commands.warp.CreateWarpCommand;
@@ -44,6 +45,9 @@ public final class SimpleWarpPlugin extends JavaPlugin {
 
         //Sb
         Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
+
+        //gui
+        Bukkit.getServer().getPluginCommand("gui").setExecutor(new GuiTestCommand());
     }
 
     @Override

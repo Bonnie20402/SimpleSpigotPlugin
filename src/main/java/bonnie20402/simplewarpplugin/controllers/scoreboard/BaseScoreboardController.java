@@ -31,7 +31,7 @@ public abstract class BaseScoreboardController {
     public void startBoards() {
         plugin.getServer().getScheduler().runTaskTimer(plugin,() -> {
             for(FastBoard board : boards.values()) {
-                updateBoard(board);
+                if(!board.isDeleted())updateBoard(board);
             }
         },5L,20L);
     }
