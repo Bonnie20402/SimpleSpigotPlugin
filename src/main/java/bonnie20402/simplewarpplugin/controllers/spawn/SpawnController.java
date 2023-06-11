@@ -72,6 +72,7 @@ public final class SpawnController {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             spawn = gson.fromJson(reader,SpawnModel.class);
+            reader.close();
         }catch(IOException exception) {
             plugin.getServer().getLogger().warning("Could not read spawn.json!\n"+exception);
         }
