@@ -12,10 +12,10 @@ public class MainScoreboard extends BaseScoreboardController {
 
     @Override
     public void update() {
-        Player p = this.getFastBoard().getPlayer();
+        Player player = this.getFastBoard().getPlayer();
         this.getFastBoard().updateLines(
                 "",
-                "Welcome, "+p.getName(),
+                "Welcome, "+player.getName(),
                 "",
                 "Online players: "+ this.plugin.getServer().getOnlinePlayers().size(),
                 "",

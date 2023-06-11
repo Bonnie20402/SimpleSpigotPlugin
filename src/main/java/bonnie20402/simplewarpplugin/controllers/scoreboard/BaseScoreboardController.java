@@ -31,9 +31,9 @@ public abstract class BaseScoreboardController implements Listener {
     public abstract void update();
 
     @EventHandler
-    private void onPlayerQuit(PlayerQuitEvent e) {
+    private void onPlayerQuit(PlayerQuitEvent playerQuitEvent) {
         if(this.getFastBoard() == null) return;
-        if(this.getFastBoard().getPlayer() == e.getPlayer()) {
+        if(this.getFastBoard().getPlayer() == playerQuitEvent.getPlayer()) {
             this.getFastBoard().delete();
         }
     }
