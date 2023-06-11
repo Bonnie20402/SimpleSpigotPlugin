@@ -1,5 +1,5 @@
-package bonnie20402.simplewarpplugin.commands;
-import bonnie20402.simplewarpplugin.controllers.WarpController;
+package bonnie20402.simplewarpplugin.commands.warp;
+import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
 import bonnie20402.simplewarpplugin.models.WarpModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

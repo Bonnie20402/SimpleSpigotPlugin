@@ -1,9 +1,14 @@
 package bonnie20402.simplewarpplugin;
 
-import bonnie20402.simplewarpplugin.commands.*;
-import bonnie20402.simplewarpplugin.controllers.SpawnController;
-import bonnie20402.simplewarpplugin.controllers.WarpController;
-import bonnie20402.simplewarpplugin.listeners.SpawnListener;
+import bonnie20402.simplewarpplugin.commands.spawn.SetSpawnCommand;
+import bonnie20402.simplewarpplugin.commands.spawn.SpawnCommand;
+import bonnie20402.simplewarpplugin.commands.warp.CreateWarpCommand;
+import bonnie20402.simplewarpplugin.commands.warp.DeleteSpawnCommand;
+import bonnie20402.simplewarpplugin.commands.warp.DeleteWarpCommand;
+import bonnie20402.simplewarpplugin.commands.warp.ListWarpCommand;
+import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
+import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
+import bonnie20402.simplewarpplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplewarpplugin.models.SpawnModel;
 import bonnie20402.simplewarpplugin.models.WarpModel;
 import org.bukkit.Bukkit;

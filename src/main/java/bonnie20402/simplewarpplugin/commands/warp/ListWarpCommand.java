@@ -1,7 +1,7 @@
-package bonnie20402.simplewarpplugin.commands;
+package bonnie20402.simplewarpplugin.commands.warp;
 
 import bonnie20402.simplewarpplugin.models.WarpModel;
-import bonnie20402.simplewarpplugin.controllers.WarpController;
+import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,8 +18,6 @@ public final class ListWarpCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-        sender.sendMessage(String.valueOf(args.length));
         if(args.length == 0 ) {
             showWarpsList(sender);
             return true;

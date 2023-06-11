@@ -1,4 +1,4 @@
-package bonnie20402.simplewarpplugin.controllers;
+package bonnie20402.simplewarpplugin.controllers.spawn;
 
 import bonnie20402.simplewarpplugin.gsonadapters.LocationAdapter;
 import bonnie20402.simplewarpplugin.models.SpawnModel;

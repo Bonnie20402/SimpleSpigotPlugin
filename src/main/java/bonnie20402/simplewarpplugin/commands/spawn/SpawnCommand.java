@@ -1,6 +1,6 @@
-package bonnie20402.simplewarpplugin.commands;
+package bonnie20402.simplewarpplugin.commands.spawn;
 
-import bonnie20402.simplewarpplugin.controllers.SpawnController;
+import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

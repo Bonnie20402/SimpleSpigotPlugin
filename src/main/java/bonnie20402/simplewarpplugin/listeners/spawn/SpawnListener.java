@@ -1,10 +1,8 @@
-package bonnie20402.simplewarpplugin.listeners;
+package bonnie20402.simplewarpplugin.listeners.spawn;
 
-import bonnie20402.simplewarpplugin.controllers.SpawnController;
-import org.bukkit.entity.Player;
+import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
