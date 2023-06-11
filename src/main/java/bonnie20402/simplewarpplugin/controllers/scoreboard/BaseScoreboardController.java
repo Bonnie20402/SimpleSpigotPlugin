@@ -5,6 +5,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BaseScoreboardController {
@@ -24,6 +25,15 @@ public abstract class BaseScoreboardController {
         return this.boards.get(uuid);
     }
 
+    public void deleteBoard(final UUID uuid) {
+        if(boards.containsKey(uuid)) {
+            Optional<FastBoard> board = Optional.
+                    ofNullable(this.getBoard(uuid));
+            if(board.isPresent()) board.get().delete();
+            boards.remove(uuid);
+        }
+
+    }
     public void createBoard(final UUID uuid, final FastBoard fastBoard) {
         this.boards.put(uuid,fastBoard);
     }

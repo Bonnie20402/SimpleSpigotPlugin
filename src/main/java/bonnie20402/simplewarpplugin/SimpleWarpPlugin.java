@@ -20,38 +20,47 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 
 public final class SimpleWarpPlugin extends JavaPlugin {
-    WarpController warpController;
-    SpawnController spawnController;
-    CoolScoreBoardController coolScoreBoardController;
+    private WarpController warpController;
+    private SpawnController spawnController;
+    private CoolScoreBoardController coolScoreBoardController;
 
     @Override
     public void onEnable() {
-        warpController = new WarpController(new ArrayList<WarpModel>(),this);
-        spawnController = new SpawnController(this, new SpawnModel());
-        coolScoreBoardController = new CoolScoreBoardController(this);
-        if(!getDataFolder().exists())getDataFolder().mkdirs();
-        Bukkit.getServer().getLogger().info("Simple warp plugin loaded!");
-
-        //Warp commands registration
-        Bukkit.getServer().getPluginCommand("createwarp").setExecutor(new CreateWarpCommand(warpController));
-        Bukkit.getServer().getPluginCommand("warp").setExecutor(new ListWarpCommand(warpController));
-        Bukkit.getServer().getPluginCommand("deletewarp").setExecutor(new DeleteWarpCommand(warpController));
-
-        //Spawn
-        Bukkit.getServer().getPluginCommand("spawn").setExecutor(new SpawnCommand(spawnController));
-        Bukkit.getServer().getPluginCommand("setspawn").setExecutor(new SetSpawnCommand(spawnController));
-        Bukkit.getServer().getPluginCommand("deletespawn").setExecutor(new DeleteSpawnCommand(spawnController));
-        Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
-
-        //Sb
-        Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
-
-        //gui
-        Bukkit.getServer().getPluginCommand("gui").setExecutor(new GuiTestCommand());
+        setupConfigDir();
+        createObjects();
+        registerEvents();
+        registerCommands();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    private void createObjects() {
+        warpController = new WarpController(new ArrayList<WarpModel>(),this);
+        spawnController = new SpawnController(this, new SpawnModel());
+        coolScoreBoardController = new CoolScoreBoardController(this);
+    }
+    private void setupConfigDir() {
+        if(!getDataFolder().exists())getDataFolder().mkdirs();
+    }
+    private void registerEvents() {
+        Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
+        Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
+    }
+
+    private void registerCommands() {
+        //Warp commands registration
+        Bukkit.getServer().getPluginCommand("createwarp").setExecutor(new CreateWarpCommand(warpController));
+        Bukkit.getServer().getPluginCommand("warp").setExecutor(new ListWarpCommand(warpController));
+        Bukkit.getServer().getPluginCommand("deletewarp").setExecutor(new DeleteWarpCommand(warpController));
+        //Spawn
+        Bukkit.getServer().getPluginCommand("spawn").setExecutor(new SpawnCommand(spawnController));
+        Bukkit.getServer().getPluginCommand("setspawn").setExecutor(new SetSpawnCommand(spawnController));
+        Bukkit.getServer().getPluginCommand("deletespawn").setExecutor(new DeleteSpawnCommand(spawnController));
+        //GUI
+        Bukkit.getServer().getPluginCommand("gui").setExecutor(new GuiTestCommand());
+
     }
 }

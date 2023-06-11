@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public final class CoolScoreboardListener implements Listener {
@@ -22,11 +21,8 @@ public final class CoolScoreboardListener implements Listener {
     @EventHandler
     private void onQuit(PlayerQuitEvent playerQuitEvent) {
         UUID uuid = playerQuitEvent.getPlayer().getUniqueId();
-        Optional<FastBoard> board = Optional.
-                ofNullable(coolScoreBoardController.getBoard(uuid));
-        if(board.isPresent()) {
-            board.get().delete();
-        }
+        coolScoreBoardController.deleteBoard(uuid);
+
     }
     @EventHandler
     private void onJoin(PlayerJoinEvent playerJoinEvent) {
