@@ -7,9 +7,11 @@ import bonnie20402.simplewarpplugin.commands.warp.CreateWarpCommand;
 import bonnie20402.simplewarpplugin.commands.warp.DeleteSpawnCommand;
 import bonnie20402.simplewarpplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplewarpplugin.commands.warp.ListWarpCommand;
+import bonnie20402.simplewarpplugin.controllers.gui.SimpleGuiController;
 import bonnie20402.simplewarpplugin.controllers.scoreboard.CoolScoreBoardController;
 import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
 import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
+import bonnie20402.simplewarpplugin.guiviews.SimpleGuiView;
 import bonnie20402.simplewarpplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplewarpplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplewarpplugin.models.SpawnModel;
@@ -23,6 +25,7 @@ public final class SimpleWarpPlugin extends JavaPlugin {
     private WarpController warpController;
     private SpawnController spawnController;
     private CoolScoreBoardController coolScoreBoardController;
+    private SimpleGuiController simpleGuiController;
 
     @Override
     public void onEnable() {
@@ -41,6 +44,7 @@ public final class SimpleWarpPlugin extends JavaPlugin {
         warpController = new WarpController(new ArrayList<WarpModel>(),this);
         spawnController = new SpawnController(this, new SpawnModel());
         coolScoreBoardController = new CoolScoreBoardController(this);
+        simpleGuiController = new SimpleGuiController(this,new SimpleGuiView());
     }
     private void setupConfigDir() {
         if(!getDataFolder().exists())getDataFolder().mkdirs();
@@ -60,7 +64,7 @@ public final class SimpleWarpPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginCommand("setspawn").setExecutor(new SetSpawnCommand(spawnController));
         Bukkit.getServer().getPluginCommand("deletespawn").setExecutor(new DeleteSpawnCommand(spawnController));
         //GUI
-        Bukkit.getServer().getPluginCommand("gui").setExecutor(new GuiTestCommand());
+        Bukkit.getServer().getPluginCommand("gui").setExecutor(new GuiTestCommand(simpleGuiController));
 
     }
 }
