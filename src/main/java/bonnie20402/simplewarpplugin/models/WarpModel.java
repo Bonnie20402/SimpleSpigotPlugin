@@ -7,8 +7,8 @@ public final class WarpModel {
     private String name;
 
     public WarpModel(Location location, String name) {
-        this.location=location;
-        this.name=name;
+        this.location = location;
+        this.name = name;
     }
 
     public Location getLocation() {
