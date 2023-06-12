@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 public class BasePlayerGuiController<GuiType extends BasePlayerGuiView> extends BaseGuiController {
 
     GuiType guiView;
-
     public BasePlayerGuiController(GuiType basePlayerGuiView) {
         this.guiView = basePlayerGuiView;
     }
@@ -15,9 +14,14 @@ public class BasePlayerGuiController<GuiType extends BasePlayerGuiView> extends 
         this.guiView.setPlayer(player);
     }
 
+    @Override
+    public void open(Player player) {
+        this.guiView.getGui().open(player);
+    }
+
     /*
-        Gets the player that is inside the view.
-     */
+            Gets the player that is inside the view.
+         */
     public Player getPlayer() {
         return this.guiView.getPlayer();
     }
