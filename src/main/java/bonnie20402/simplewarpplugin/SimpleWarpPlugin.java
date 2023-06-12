@@ -2,6 +2,8 @@ package bonnie20402.simplewarpplugin;
 
 import bonnie20402.simplewarpplugin.commands.gui.SimpleGuiCommand;
 import bonnie20402.simplewarpplugin.commands.gui.SimplePlayerGuiCommand;
+import bonnie20402.simplewarpplugin.commands.home.HomeCommand;
+import bonnie20402.simplewarpplugin.commands.home.SetHomeCommand;
 import bonnie20402.simplewarpplugin.commands.spawn.SetSpawnCommand;
 import bonnie20402.simplewarpplugin.commands.spawn.SpawnCommand;
 import bonnie20402.simplewarpplugin.commands.warp.CreateWarpCommand;
@@ -10,6 +12,7 @@ import bonnie20402.simplewarpplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplewarpplugin.commands.warp.ListWarpCommand;
 import bonnie20402.simplewarpplugin.controllers.gui.SimpleGuiController;
 import bonnie20402.simplewarpplugin.controllers.gui.SimplePlayerGuiController;
+import bonnie20402.simplewarpplugin.controllers.home.HomeController;
 import bonnie20402.simplewarpplugin.controllers.scoreboard.CoolScoreBoardController;
 import bonnie20402.simplewarpplugin.controllers.spawn.SpawnController;
 import bonnie20402.simplewarpplugin.controllers.warp.WarpController;
@@ -19,10 +22,12 @@ import bonnie20402.simplewarpplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplewarpplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplewarpplugin.models.SpawnModel;
 import bonnie20402.simplewarpplugin.models.WarpModel;
+import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public final class SimpleWarpPlugin extends JavaPlugin {
     private WarpController warpController;
@@ -30,6 +35,8 @@ public final class SimpleWarpPlugin extends JavaPlugin {
     private CoolScoreBoardController coolScoreBoardController;
     private SimpleGuiController simpleGuiController;
     private SimplePlayerGuiController simplePlayerGuiController;
+
+    private HomeController homeController;
 
     @Override
     public void onEnable() {
@@ -47,6 +54,7 @@ public final class SimpleWarpPlugin extends JavaPlugin {
     private void createObjects() {
         warpController = new WarpController(new ArrayList<WarpModel>(),this);
         spawnController = new SpawnController(this, new SpawnModel());
+        homeController = new HomeController(new ArrayList<>(),this,new GsonBuilder());
         coolScoreBoardController = new CoolScoreBoardController(this);
         simpleGuiController = new SimpleGuiController(this,new SimpleGuiView());
         simplePlayerGuiController = new SimplePlayerGuiController(this,new SimplePlayerGuiView());
@@ -71,5 +79,9 @@ public final class SimpleWarpPlugin extends JavaPlugin {
         //GUI
         Bukkit.getServer().getPluginCommand("gui").setExecutor(new SimpleGuiCommand(simpleGuiController));
         Bukkit.getServer().getPluginCommand("guip").setExecutor(new SimplePlayerGuiCommand(simplePlayerGuiController));
+
+        //home
+        Bukkit.getServer().getPluginCommand("home").setExecutor(new HomeCommand(homeController));
+        Bukkit.getServer().getPluginCommand("sethome").setExecutor(new SetHomeCommand(homeController));
     }
 }
