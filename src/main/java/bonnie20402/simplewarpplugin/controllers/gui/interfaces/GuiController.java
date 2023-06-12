@@ -1,4 +1,4 @@
-package bonnie20402.simplewarpplugin.controllers.gui;
+package bonnie20402.simplewarpplugin.controllers.gui.interfaces;
 
 import org.bukkit.entity.Player;
 

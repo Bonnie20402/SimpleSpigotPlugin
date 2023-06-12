@@ -1,5 +1,6 @@
 package bonnie20402.simplewarpplugin.guiviews;
 
+import bonnie20402.simplewarpplugin.guiviews.base.BaseGuiView;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;

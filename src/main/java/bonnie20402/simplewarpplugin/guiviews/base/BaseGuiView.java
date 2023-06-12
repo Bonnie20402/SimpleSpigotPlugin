@@ -1,4 +1,4 @@
-package bonnie20402.simplewarpplugin.guiviews;
+package bonnie20402.simplewarpplugin.guiviews.base;
 
 import dev.triumphteam.gui.guis.Gui;
 import org.bukkit.entity.Player;

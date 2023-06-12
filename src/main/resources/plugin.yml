@@ -15,6 +15,7 @@ commands:
     permission: "simplewarps.admin.remove"
     permission-message: "You are not allowed to do this!"
 
+  guip:
   gui:
   spawn:
   setspawn:
