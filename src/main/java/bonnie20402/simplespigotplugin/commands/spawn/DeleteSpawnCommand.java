@@ -1,4 +1,4 @@
-package bonnie20402.simplespigotplugin.commands.warp;
+package bonnie20402.simplespigotplugin.commands.spawn;
 
 import bonnie20402.simplespigotplugin.controllers.spawn.SpawnController;
 import org.bukkit.command.Command;

@@ -1,9 +1,9 @@
 package bonnie20402.simplespigotplugin.commands.warp;
 import bonnie20402.simplespigotplugin.controllers.warp.WarpController;
-import bonnie20402.simplespigotplugin.models.WarpModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 public final class DeleteWarpCommand implements CommandExecutor {
     private final WarpController warpController;
@@ -12,19 +12,18 @@ public final class DeleteWarpCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {;
-
-        if(args.length == 0) {
-            sender.sendMessage("No arguments provided.");
+        if(!(sender instanceof Player))return true;
+        if (args.length == 0 ) {
+            sender.sendMessage("Usage: /delwarp <name>");
             return true;
         }
-        WarpModel warp = warpController.findWarpByName(args[0]);
-        if(warp == null )  {
-            sender.sendMessage("Could not find a warp named "+args[0]);
-            return true;
+        String warpKey = args[0];
+        if( warpController.warpExists(warpKey) ) {
+            warpController.deleteWarp(warpKey);
+            sender.sendMessage("You deleted a warp!");
         }
         else {
-            warpController.removeWarp(warp);
-            sender.sendMessage("You have removed the warp "+args[0]);
+            sender.sendMessage("The warp " + warpKey + " does not exist!");
         }
         return true;
     }

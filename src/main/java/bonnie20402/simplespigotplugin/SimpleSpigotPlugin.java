@@ -4,10 +4,10 @@ import bonnie20402.simplespigotplugin.commands.gui.SimpleGuiCommand;
 import bonnie20402.simplespigotplugin.commands.gui.SimplePlayerGuiCommand;
 import bonnie20402.simplespigotplugin.commands.home.HomeCommand;
 import bonnie20402.simplespigotplugin.commands.home.SetHomeCommand;
+import bonnie20402.simplespigotplugin.commands.spawn.DeleteSpawnCommand;
 import bonnie20402.simplespigotplugin.commands.spawn.SetSpawnCommand;
 import bonnie20402.simplespigotplugin.commands.spawn.SpawnCommand;
 import bonnie20402.simplespigotplugin.commands.warp.CreateWarpCommand;
-import bonnie20402.simplespigotplugin.commands.warp.DeleteSpawnCommand;
 import bonnie20402.simplespigotplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplespigotplugin.commands.warp.ListWarpCommand;
 import bonnie20402.simplespigotplugin.controllers.gui.SimpleGuiController;
@@ -21,13 +21,11 @@ import bonnie20402.simplespigotplugin.guiviews.SimplePlayerGuiView;
 import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplespigotplugin.models.SpawnModel;
-import bonnie20402.simplespigotplugin.models.WarpModel;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public final class SimpleSpigotPlugin extends JavaPlugin {
@@ -55,7 +53,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     }
 
     private void createObjects() {
-        warpController = new WarpController(new ArrayList<WarpModel>(),this);
+        warpController = new WarpController(new HashMap<>(),this);
         spawnController = new SpawnController(this, new SpawnModel());
         homeController = new HomeController(new HashMap<>(),this,new GsonBuilder());
         coolScoreBoardController = new CoolScoreBoardController(this);

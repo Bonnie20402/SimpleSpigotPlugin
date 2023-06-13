@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public final class ListWarpCommand implements CommandExecutor {
 
     private final WarpController warpController;
@@ -22,37 +24,36 @@ public final class ListWarpCommand implements CommandExecutor {
             showWarpsList(sender);
             return true;
         }
-        WarpModel warpToGo = warpController.findWarpByName(args[0]);
-        if(warpToGo == null) {
-            sender.sendMessage("The warp "+args[0]+" does not exist.");
-            return true;
-        }
         Player player = (Player) sender;
-        warpController.teleportToWarp(player,warpToGo);
-        sender.sendMessage("You have been teleported to the warp "+warpToGo.getName());
+        String warpKey = args[0];
+
+        if(warpController.warpExists(warpKey)) {
+            WarpModel warp = warpController.getWarp(warpKey);
+            warpController.teleportToWarp(player,warp);
+            sender.sendMessage("You have been teleported to the warp " + args[0]);
+        }
+        else sender.sendMessage("The warp " + args[0] + "does not exist.");
         return true;
     }
 
     private void showWarpsList(CommandSender sender) {
-        int size = warpController.getWarps().size();
-        sender.sendMessage("There are currently " + warpController.getWarps().size() +" warps in the server." + (size > 0 ? "\nHere is a list of them:" : ""));
+        int size = warpController.getWarpList().size();
+        ArrayList<String> warpNameList = warpController.getWarpList();
+        sender.sendMessage("There are currently " + size +" warps in the server." + (size > 0 ? "\nHere is a list of them:" : ""));
         StringBuilder message = new StringBuilder();
-
-        for(int i = 0; i < size; i++) {
-            WarpModel warp = warpController.getWarps().get(i);
-            if(i%2==0) {
-                message.append("§6"+warp.getName()+"§f");
+        int i = 0;
+        for(String warpName : warpNameList) {
+            if ( i != size-1 && i != size) {
+                message.append(warpName).append(", ");
+            }
+            else if( size > 1) {
+                message.append(" and ").append(warpName);
             }
             else {
-                message.append("§e"+warp.getName()+"$f");
+                message.append(warpName);
             }
-            if(i == size - 2) {
-                message.append(", and ");
-            }
-            else if (i != size - 1) {
-                message.append(", ");
-            }
+            i++;
         }
-        if(message.length() > 0 ) sender.sendMessage(message.toString());
+        if(size > 0 ) sender.sendMessage(message.toString());
         }
 }
