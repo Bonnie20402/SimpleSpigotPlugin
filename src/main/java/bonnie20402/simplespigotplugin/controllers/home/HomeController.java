@@ -20,6 +20,7 @@ public final class HomeController {
     private final HashMap<UUID,HomeModel> homes;
     private final Plugin plugin;
     private final GsonBuilder gsonBuilder;
+    private final Gson gson;
 
     private final HashMap<String,String> HOME_MESSAGES;
 
@@ -33,6 +34,7 @@ public final class HomeController {
         this.gsonBuilder = gsonBuilder;
         gsonBuilder.registerTypeAdapter(Location.class,new LocationAdapter());
         gsonBuilder.setPrettyPrinting();
+        gson = gsonBuilder.create();
         this.HOME_MESSAGES = new HashMap<>();
         this.loadMessages();
         this.load();
@@ -90,7 +92,6 @@ public final class HomeController {
         File homeFolder = new File( this.getHomeFolder() );
         if(homeFolder.mkdirs())this.plugin.getLogger().info("Created home folder!");
         HomeModel homeModel;
-        Gson gson = gsonBuilder.create();
         for( File homeFile : Objects.requireNonNull(homeFolder.listFiles()) ) {
             try(JsonReader jsonReader = new JsonReader(new FileReader(homeFile))) {
                 homeModel = gson.fromJson(jsonReader,HomeModel.class);
@@ -105,7 +106,6 @@ public final class HomeController {
 
     public void save() {
         File homeFolder = new File(this.getHomeFolder());
-        Gson gson = gsonBuilder.create();
         int quantity = 0;
         for(HomeModel home : homes.values()) {
             try( BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(homeFolder + File.separator + home.getOwner().toString() + ".json")) ) {
