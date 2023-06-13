@@ -9,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-
 public final class SetHomeCommand implements CommandExecutor {
 
     private final HomeController homeController;
@@ -23,9 +21,8 @@ public final class SetHomeCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player))return true;
         Player player = (Player) sender;
-        HashMap<String,String> messages = homeController.getHomeMessages();
-        if( !homeController.hasHome(player) ) sender.sendMessage(ChatColor.GREEN + messages.get("homeset"));
-        else sender.sendMessage(ChatColor.GREEN + messages.get("homeupdate"));
+        if( !homeController.hasHome(player) ) sender.sendMessage(ChatColor.GREEN + homeController.getHomeMessage( "homeset" ) );
+        else sender.sendMessage(ChatColor.GREEN + homeController.getHomeMessage( "homeupdate" ) );
         HomeModel homeModel = new HomeModel(player.getLocation(),player.getUniqueId());
         homeController.updateHome(player,homeModel);
         return true;

@@ -52,8 +52,13 @@ public final class HomeController {
         return homes.containsKey(player.getUniqueId());
     }
 
-    public HashMap<String, String> getHomeMessages() {
+    private HashMap<String, String> getHomeMessages() {
         return HOME_MESSAGES;
+    }
+
+    public String getHomeMessage(String key) {
+        if(!this.getHomeMessages().containsKey(key))throw new IllegalArgumentException("No message found for provided key!");
+        else return this.getHomeMessages().get(key);
     }
 
     public void teleportToHome(Player player) {
