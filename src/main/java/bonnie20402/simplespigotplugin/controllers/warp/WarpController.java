@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -22,13 +22,13 @@ import java.util.Objects;
     TODO: Add custom message support.
  */
 public final class WarpController {
-    private final HashMap<String,WarpModel> warps;
+    private final Map<String,WarpModel> warps;
 
     private static final String WARP_FOLDER_NAME = "warps";
     private final Plugin plugin;
     private final Gson gson;
 
-    public WarpController(HashMap<String,WarpModel> warps, Plugin plugin) {
+    public WarpController(Map<String,WarpModel> warps, Plugin plugin) {
         this.warps = warps;
         this.plugin = plugin;
         gson = new GsonBuilder()
@@ -57,8 +57,7 @@ public final class WarpController {
     }
 
     public void deleteWarp(String warpKey) {
-        if( !warpExists(warpKey) ) throw new IllegalStateException("The warp " + warpKey + " does not exist!");
-        warps.remove(warpKey);
+        if( !warpExists(warpKey) ) return;
         this.deleteWarpFile(warpKey);
         this.save();
     }
