@@ -1,1 +1,6 @@
-name: "Test"
+
+home_messages:
+  homeless: "You don't have a home yet!"
+  homed: "You have been teleported to your home!"
+  homeset: "You have defined your home, congrats!"
+  homeupdate: "You have updated your home's location!"

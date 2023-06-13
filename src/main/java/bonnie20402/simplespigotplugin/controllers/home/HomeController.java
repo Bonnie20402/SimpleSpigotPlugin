@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -20,6 +21,8 @@ public final class HomeController {
     private final Plugin plugin;
     private final GsonBuilder gsonBuilder;
 
+    private final HashMap<String,String> HOME_MESSAGES;
+
     private String getHomeFolder() {
         return (this.plugin.getDataFolder().getPath() + File.separator + HomeController.HOME_FOLDER_NAME + File.separator);
     }
@@ -30,13 +33,28 @@ public final class HomeController {
         this.gsonBuilder = gsonBuilder;
         gsonBuilder.registerTypeAdapter(Location.class,new LocationAdapter());
         gsonBuilder.setPrettyPrinting();
+        this.HOME_MESSAGES = new HashMap<>();
+        this.loadMessages();
         this.load();
     }
-
+    private void loadMessages() {
+        ConfigurationSection configurationSection = this.plugin.getConfig().getConfigurationSection("home_messages");
+        HOME_MESSAGES.clear();
+        int i = 0;
+        for(String msgKey : configurationSection.getKeys(false)) {
+            String msgValue = configurationSection.getString(msgKey);
+            HOME_MESSAGES.put(msgKey,msgValue);
+            i++;
+        }
+        this.plugin.getLogger().info("Loaded "+i+" home messages.");
+    }
     public boolean hasHome(Player player) {
         return homes.containsKey(player.getUniqueId());
     }
 
+    public HashMap<String, String> getHomeMessages() {
+        return HOME_MESSAGES;
+    }
 
     public void teleportToHome(Player player) {
         if( !hasHome(player) )  throw new IllegalStateException("This player does NOT have a home!");

@@ -1,11 +1,14 @@
 package bonnie20402.simplespigotplugin.commands.home;
 
 import bonnie20402.simplespigotplugin.controllers.home.HomeController;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 public final class HomeCommand implements CommandExecutor {
     private final HomeController homeController;
@@ -18,12 +21,11 @@ public final class HomeCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player))return true;
         Player player = (Player) sender;
+        HashMap<String,String> messages = homeController.getHomeMessages();
         if(homeController.hasHome(player)) {
             homeController.teleportToHome(player);
-            sender.sendMessage("You teleported to your home.");
-        }else {
-            sender.sendMessage("You don't have a home yet. To create home, do /sethome!");
-        }
+            sender.sendMessage(ChatColor.GREEN + messages.get( "homed"));
+        }else sender.sendMessage(ChatColor.RED + messages.get("homeless"));
         return true;
     }
 }

@@ -64,8 +64,6 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     }
     private void setupConfigDir() {
         this.saveDefaultConfig();
-        String name = this.getConfig().getString("name");
-        this.getLogger().info("The name I've got from my config file was: " + name);
     }
     private void registerEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);

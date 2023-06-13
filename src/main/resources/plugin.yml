@@ -1,6 +1,6 @@
-name: SimpleWarpPlugin
+name: SimpleSpigotPlugin
 version: '${project.version}'
-main: bonnie20402.simplewarpplugin.SimpleWarpPlugin
+main: bonnie20402.simplespigotplugin.SimpleSpigotPlugin
 api-version: 1.19
 
 commands:
