@@ -6,9 +6,8 @@ import java.util.UUID;
 
 public final class HomeModel {
     private Location location;
-    private UUID owner;
+    private final UUID owner;
 
-    public HomeModel() { }
     public HomeModel(Location location, UUID owner) {
         this.location = location;
         this.owner = owner;
@@ -26,7 +25,4 @@ public final class HomeModel {
         return owner;
     }
 
-    public void setOwner(UUID owner) {
-        this.owner = owner;
-    }
 }

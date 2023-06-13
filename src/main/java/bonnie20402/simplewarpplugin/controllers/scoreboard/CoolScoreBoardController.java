@@ -1,5 +1,6 @@
 package bonnie20402.simplewarpplugin.controllers.scoreboard;
 
+import bonnie20402.simplewarpplugin.controllers.scoreboard.base.BaseScoreboardController;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.plugin.Plugin;
 
@@ -9,12 +10,13 @@ public final class CoolScoreBoardController extends BaseScoreboardController {
         super(plugin);
     }
     @Override
-    public void updateBoard(FastBoard board) {
-        board.updateTitle("cool server");
+    public void updateBoard(FastBoard board)
+    {
+        board.updateTitle("O meu plugin em java");
         board.updateLines(
                 "Hello there!",
                 "",
-                "Nice to see you",
+                "Nice to see you ",
                 "",
                 "come back anytime dude"
         );

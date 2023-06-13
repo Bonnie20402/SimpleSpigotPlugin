@@ -1,4 +1,4 @@
-package bonnie20402.simplewarpplugin.controllers.scoreboard;
+package bonnie20402.simplewarpplugin.controllers.scoreboard.base;
 
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.plugin.Plugin;

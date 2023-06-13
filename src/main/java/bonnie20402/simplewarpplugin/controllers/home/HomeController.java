@@ -10,14 +10,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class HomeController {
 
     private static final String HOME_FOLDER_NAME = "homes";
 
-    private final List<HomeModel> homes;
+    private final HashMap<UUID,HomeModel> homes;
     private final Plugin plugin;
     private final GsonBuilder gsonBuilder;
 
@@ -25,7 +26,7 @@ public final class HomeController {
         return (this.plugin.getDataFolder().getPath() + File.separator + HomeController.HOME_FOLDER_NAME + File.separator);
     }
 
-    public HomeController(List<HomeModel> homes, Plugin plugin, GsonBuilder gsonBuilder) {
+    public HomeController(HashMap<UUID,HomeModel> homes, Plugin plugin, GsonBuilder gsonBuilder) {
         this.homes = homes;
         this.plugin = plugin;
         this.gsonBuilder = gsonBuilder;
@@ -35,21 +36,9 @@ public final class HomeController {
     }
 
     public boolean hasHome(Player player) {
-        for(HomeModel home : homes) {
-            if( Objects.equals(home.getOwner(),player.getUniqueId()) ) return true;
-        }
-        return false;
+        return homes.containsKey(player.getUniqueId());
     }
 
-    public int getHomeIndex(Player player) {
-        if(!hasHome(player)) return -1;
-        int i = 0;
-        for(HomeModel home : homes) {
-            if( Objects.equals(home.getOwner(),player.getUniqueId()) ) return i;
-            i++;
-        }
-        return -1;
-    }
 
     public void teleportToHome(Player player) {
         if( !hasHome(player) )  throw new IllegalStateException("This player does NOT have a home!");
@@ -59,27 +48,22 @@ public final class HomeController {
 
     public HomeModel getPlayerHome(Player player) {
         if( !hasHome(player) )  throw new IllegalStateException("This player does NOT have a home!");
-        int index = getHomeIndex(player);
-        return homes.get(index);
+        return homes.get(player.getUniqueId());
     }
     public void deleteHome(Player player) {
         if( !hasHome(player) ) throw new IllegalStateException("This player does NOT have a home!");
-        int index = getHomeIndex(player);
-        homes.remove(index);
+        homes.remove(player.getUniqueId());
     }
 
     public void updateHome(Player player,HomeModel homeModel) {
-        if(!hasHome(player))createHome(player,homeModel);
-        int index = getHomeIndex(player);
-        if(index != -1) {
-            homes.set(index,homeModel);
-            this.save();
-        }else throw new IllegalStateException("This player does NOT have a home!");
-
+        if(!hasHome(player))createHome(homeModel);
+        HomeModel playerHome = homes.get(player.getUniqueId());
+        playerHome.setLocation(homeModel.getLocation());
+        this.save();
     }
 
-    private void createHome(Player player,HomeModel homeModel) {
-        homes.add(homeModel);
+    private void createHome(HomeModel homeModel) {
+        homes.put(homeModel.getOwner(),homeModel);
     }
     public void load() {
         File homeFolder = new File( this.getHomeFolder() );
@@ -89,7 +73,7 @@ public final class HomeController {
         for( File homeFile : Objects.requireNonNull(homeFolder.listFiles()) ) {
             try(JsonReader jsonReader = new JsonReader(new FileReader(homeFile))) {
                 homeModel = gson.fromJson(jsonReader,HomeModel.class);
-                this.homes.add(homeModel);
+                this.homes.put(homeModel.getOwner(),homeModel);
             }catch (IOException exception) {
                 exception.printStackTrace();
             }finally {
@@ -102,7 +86,7 @@ public final class HomeController {
         File homeFolder = new File(this.getHomeFolder());
         Gson gson = gsonBuilder.create();
         int quantity = 0;
-        for(HomeModel home : homes) {
+        for(HomeModel home : homes.values()) {
             try( BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(homeFolder + File.separator + home.getOwner().toString() + ".json")) ) {
                 String homeModelSerialized = gson.toJson(home);
                 bufferedWriter.write(homeModelSerialized);

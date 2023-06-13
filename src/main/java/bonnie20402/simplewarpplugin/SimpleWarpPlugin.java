@@ -27,7 +27,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 
 public final class SimpleWarpPlugin extends JavaPlugin {
     private WarpController warpController;
@@ -54,7 +54,7 @@ public final class SimpleWarpPlugin extends JavaPlugin {
     private void createObjects() {
         warpController = new WarpController(new ArrayList<WarpModel>(),this);
         spawnController = new SpawnController(this, new SpawnModel());
-        homeController = new HomeController(new ArrayList<>(),this,new GsonBuilder());
+        homeController = new HomeController(new HashMap<>(),this,new GsonBuilder());
         coolScoreBoardController = new CoolScoreBoardController(this);
         simpleGuiController = new SimpleGuiController(this,new SimpleGuiView());
         simplePlayerGuiController = new SimplePlayerGuiController(this,new SimplePlayerGuiView());
