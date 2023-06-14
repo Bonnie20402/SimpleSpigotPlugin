@@ -21,6 +21,7 @@ import bonnie20402.simplespigotplugin.guiviews.SimplePlayerGuiView;
 import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplespigotplugin.models.SpawnModel;
+import bonnie20402.simplespigotplugin.models.geometry.CuboidModel;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,6 +37,8 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     private CoolScoreBoardController coolScoreBoardController;
     private SimpleGuiController simpleGuiController;
     private SimplePlayerGuiController simplePlayerGuiController;
+
+    private CuboidModel cuboid;
 
     private HomeController homeController;
 
