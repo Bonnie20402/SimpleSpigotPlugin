@@ -1,5 +1,6 @@
 package bonnie20402.simplespigotplugin;
 
+import bonnie20402.simplespigotplugin.commands.TestCommand;
 import bonnie20402.simplespigotplugin.commands.gui.SimpleGuiCommand;
 import bonnie20402.simplespigotplugin.commands.gui.SimplePlayerGuiCommand;
 import bonnie20402.simplespigotplugin.commands.home.HomeCommand;
@@ -25,8 +26,10 @@ import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListene
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
 import bonnie20402.simplespigotplugin.models.spawn.SpawnModel;
 import com.google.gson.GsonBuilder;
+import com.infernalsuite.aswm.api.SlimePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -44,7 +47,13 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
 
     private HomeController homeController;
 
+    private SlimePlugin slimePlugin;
 
+
+
+    public Plugin getSlimeWorldManager() {
+        return Bukkit.getPluginManager().getPlugin("SlimeWorldManager");
+    }
 
     @Override
     public void onEnable() {
@@ -67,6 +76,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         simpleGuiController = new SimpleGuiController(this,new SimpleGuiView());
         simplePlayerGuiController = new SimplePlayerGuiController(this,new SimplePlayerGuiView());
         cuboidController = new CuboidController(this);
+        slimePlugin = (SlimePlugin) Bukkit.getPluginManager().getPlugin("SlimeWorldManager");
     }
     private void setupConfigDir() {
         this.saveDefaultConfig();
@@ -95,5 +105,6 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginCommand("sethome").setExecutor(new SetHomeCommand(homeController));
         //area playing
         Bukkit.getServer().getPluginCommand("setloc").setExecutor(new CuboidCommand(cuboidController));
+        Bukkit.getServer().getPluginCommand("test").setExecutor(new TestCommand(slimePlugin,this));
     }
 }
