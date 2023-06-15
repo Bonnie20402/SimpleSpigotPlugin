@@ -1,7 +1,7 @@
 name: SimpleSpigotPlugin
 version: '${project.version}'
 main: bonnie20402.simplespigotplugin.SimpleSpigotPlugin
-api-version: 1.19
+api-version: 1.13
 
 commands:
   warp:
@@ -15,6 +15,7 @@ commands:
     permission: "simplewarps.admin.remove"
     permission-message: "You are not allowed to do this!"
 
+  setloc:
   sethome:
   home:
   guip:

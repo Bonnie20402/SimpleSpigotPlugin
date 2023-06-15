@@ -1,6 +1,6 @@
 package bonnie20402.simplespigotplugin.controllers.home;
 
-import bonnie20402.simplespigotplugin.models.HomeModel;
+import bonnie20402.simplespigotplugin.models.home.HomeModel;
 import bonnie20402.simplespigotplugin.utils.gsonadapters.LocationAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

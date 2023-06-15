@@ -1,4 +1,4 @@
-package bonnie20402.simplespigotplugin.models;
+package bonnie20402.simplespigotplugin.models.home;
 
 import org.bukkit.Location;
 

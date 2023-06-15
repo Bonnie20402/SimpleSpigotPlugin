@@ -1,7 +1,7 @@
 package bonnie20402.simplespigotplugin.commands.home;
 
 import bonnie20402.simplespigotplugin.controllers.home.HomeController;
-import bonnie20402.simplespigotplugin.models.HomeModel;
+import bonnie20402.simplespigotplugin.models.home.HomeModel;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

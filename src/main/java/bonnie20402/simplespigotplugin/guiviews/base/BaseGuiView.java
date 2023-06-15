@@ -30,9 +30,8 @@ public abstract class BaseGuiView {
         return Objects.equals(player.getInventory(),gui.getInventory());
     }
     protected void close(Player player) {
-        if(Objects.equals(player.getInventory(),gui.getInventory())) {
-            player.getInventory().close();
-        }else throw new IllegalStateException("This GUI is not open!");
+        if(Objects.equals(player.getInventory(),gui.getInventory()))  return;
+        else throw new IllegalStateException("This GUI is not open!");
     }
 
     public Gui getGui() {

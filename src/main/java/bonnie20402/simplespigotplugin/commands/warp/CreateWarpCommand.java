@@ -1,7 +1,7 @@
 package bonnie20402.simplespigotplugin.commands.warp;
 
 import bonnie20402.simplespigotplugin.controllers.warp.WarpController;
-import bonnie20402.simplespigotplugin.models.WarpModel;
+import bonnie20402.simplespigotplugin.models.warp.WarpModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

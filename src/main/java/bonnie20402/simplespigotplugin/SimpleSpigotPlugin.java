@@ -10,6 +10,9 @@ import bonnie20402.simplespigotplugin.commands.spawn.SpawnCommand;
 import bonnie20402.simplespigotplugin.commands.warp.CreateWarpCommand;
 import bonnie20402.simplespigotplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplespigotplugin.commands.warp.ListWarpCommand;
+import bonnie20402.simplespigotplugin.commands.cuboid.CuboidCommand;
+import bonnie20402.simplespigotplugin.controllers.cuboid.CuboidController;
+import bonnie20402.simplespigotplugin.listeners.cuboid.CuboidListener;
 import bonnie20402.simplespigotplugin.controllers.gui.SimpleGuiController;
 import bonnie20402.simplespigotplugin.controllers.gui.SimplePlayerGuiController;
 import bonnie20402.simplespigotplugin.controllers.home.HomeController;
@@ -20,8 +23,7 @@ import bonnie20402.simplespigotplugin.guiviews.SimpleGuiView;
 import bonnie20402.simplespigotplugin.guiviews.SimplePlayerGuiView;
 import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
-import bonnie20402.simplespigotplugin.models.SpawnModel;
-import bonnie20402.simplespigotplugin.models.geometry.CuboidModel;
+import bonnie20402.simplespigotplugin.models.spawn.SpawnModel;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -38,9 +40,11 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     private SimpleGuiController simpleGuiController;
     private SimplePlayerGuiController simplePlayerGuiController;
 
-    private CuboidModel cuboid;
+    private CuboidController cuboidController;
 
     private HomeController homeController;
+
+
 
     @Override
     public void onEnable() {
@@ -62,6 +66,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         coolScoreBoardController = new CoolScoreBoardController(this);
         simpleGuiController = new SimpleGuiController(this,new SimpleGuiView());
         simplePlayerGuiController = new SimplePlayerGuiController(this,new SimplePlayerGuiView());
+        cuboidController = new CuboidController(this);
     }
     private void setupConfigDir() {
         this.saveDefaultConfig();
@@ -69,6 +74,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     private void registerEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
         Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
+        Bukkit.getServer().getPluginManager().registerEvents(new CuboidListener(cuboidController),this);
     }
 
     private void registerCommands() {
@@ -87,5 +93,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         //home
         Bukkit.getServer().getPluginCommand("home").setExecutor(new HomeCommand(homeController));
         Bukkit.getServer().getPluginCommand("sethome").setExecutor(new SetHomeCommand(homeController));
+        //area playing
+        Bukkit.getServer().getPluginCommand("setloc").setExecutor(new CuboidCommand(cuboidController));
     }
 }

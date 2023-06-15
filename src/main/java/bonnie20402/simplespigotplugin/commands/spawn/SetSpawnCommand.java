@@ -1,6 +1,6 @@
 package bonnie20402.simplespigotplugin.commands.spawn;
 import bonnie20402.simplespigotplugin.controllers.spawn.SpawnController;
-import bonnie20402.simplespigotplugin.models.SpawnModel;
+import bonnie20402.simplespigotplugin.models.spawn.SpawnModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
