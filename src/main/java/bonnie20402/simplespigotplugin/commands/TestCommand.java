@@ -39,9 +39,9 @@ public class TestCommand implements CommandExecutor {
         commandSender.sendMessage("Now loading world...");
         SlimePropertyMap slimePropertyMap = new SlimePropertyMap();
         try {
-            SlimeWorld slimeWorld = slimePlugin.createEmptyWorld(slimeLoader, "testworld",false,slimePropertyMap);
-            slimePlugin.loadWorld(slimeWorld);
-            World world = plugin.getServer().getWorld("testworld");
+            File file = new File(plugin.getDataFolder() + File.separator + "maps" + File.separator + "arena.slime");
+            slimePlugin.importWorld(file,"arena",slimeLoader);
+            World world = plugin.getServer().getWorld("arena");
             if( world == null) {
                 commandSender.sendMessage("Null world");
             }

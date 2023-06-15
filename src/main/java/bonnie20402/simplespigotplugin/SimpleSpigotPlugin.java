@@ -32,21 +32,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashMap;
 
 public final class SimpleSpigotPlugin extends JavaPlugin {
-
-    private FileConfiguration fileConfiguration;
     private WarpController warpController;
     private SpawnController spawnController;
     private CoolScoreBoardController coolScoreBoardController;
     private SimpleGuiController simpleGuiController;
     private SimplePlayerGuiController simplePlayerGuiController;
-
     private CuboidController cuboidController;
-
     private HomeController homeController;
-
     private SlimePlugin slimePlugin;
 
 
@@ -80,11 +76,19 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     }
     private void setupConfigDir() {
         this.saveDefaultConfig();
+        File file = new File(this.getDataFolder() + File.separator + "maps" + File.separator);
+        if(file.mkdirs()) {
+            this.getLogger().info("Created maps folder.");
+        }
     }
     private void registerEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
         Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
         Bukkit.getServer().getPluginManager().registerEvents(new CuboidListener(cuboidController),this);
+    }
+
+    public File getMapsFolder() {
+        return new File(this.getDataFolder() + File.separator + "maps" + File.separator);
     }
 
     private void registerCommands() {
