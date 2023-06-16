@@ -19,7 +19,6 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 
 
 public class TestCommand implements CommandExecutor {
@@ -33,14 +32,12 @@ public class TestCommand implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return true;
-        File worldDirectory = new File("voidworld");
         SlimeLoader slimeLoader = slimePlugin.getLoader("file");
         Player player = (Player) commandSender;
         commandSender.sendMessage("Now loading world...");
-        SlimePropertyMap slimePropertyMap = new SlimePropertyMap();
         try {
-            File file = new File(plugin.getDataFolder() + File.separator + "maps" + File.separator + "arena.slime");
-            slimePlugin.importWorld(file,"arena",slimeLoader);
+            File file = new File(  "slime_worlds" + File.separator + "arena.slime");
+            slimePlugin.importWorld(file,"arenaTest",slimeLoader);
             World world = plugin.getServer().getWorld("arena");
             if( world == null) {
                 commandSender.sendMessage("Null world");
