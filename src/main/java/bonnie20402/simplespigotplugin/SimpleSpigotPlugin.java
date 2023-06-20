@@ -1,6 +1,7 @@
 package bonnie20402.simplespigotplugin;
 
 import bonnie20402.simplespigotplugin.commands.TestCommand;
+import bonnie20402.simplespigotplugin.commands.cuboid.CuboidCommand;
 import bonnie20402.simplespigotplugin.commands.gui.SimpleGuiCommand;
 import bonnie20402.simplespigotplugin.commands.gui.SimplePlayerGuiCommand;
 import bonnie20402.simplespigotplugin.commands.home.HomeCommand;
@@ -11,9 +12,7 @@ import bonnie20402.simplespigotplugin.commands.spawn.SpawnCommand;
 import bonnie20402.simplespigotplugin.commands.warp.CreateWarpCommand;
 import bonnie20402.simplespigotplugin.commands.warp.DeleteWarpCommand;
 import bonnie20402.simplespigotplugin.commands.warp.ListWarpCommand;
-import bonnie20402.simplespigotplugin.commands.cuboid.CuboidCommand;
 import bonnie20402.simplespigotplugin.controllers.cuboid.CuboidController;
-import bonnie20402.simplespigotplugin.listeners.cuboid.CuboidListener;
 import bonnie20402.simplespigotplugin.controllers.gui.SimpleGuiController;
 import bonnie20402.simplespigotplugin.controllers.gui.SimplePlayerGuiController;
 import bonnie20402.simplespigotplugin.controllers.home.HomeController;
@@ -22,13 +21,19 @@ import bonnie20402.simplespigotplugin.controllers.spawn.SpawnController;
 import bonnie20402.simplespigotplugin.controllers.warp.WarpController;
 import bonnie20402.simplespigotplugin.guiviews.SimpleGuiView;
 import bonnie20402.simplespigotplugin.guiviews.SimplePlayerGuiView;
+import bonnie20402.simplespigotplugin.listeners.cuboid.CuboidListener;
 import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.ArenaFightStartListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.ArenaJoinQuitListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.ArenaStateChangeListener;
+import bonnie20402.simplespigotplugin.models.arena.manager.ArenaManager;
+import bonnie20402.simplespigotplugin.models.arena.setup.ArenaSetupCommand;
+import bonnie20402.simplespigotplugin.models.arena.setup.ArenaSetupListener;
 import bonnie20402.simplespigotplugin.models.spawn.SpawnModel;
 import com.google.gson.GsonBuilder;
 import com.infernalsuite.aswm.api.SlimePlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -44,6 +49,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
     private CuboidController cuboidController;
     private HomeController homeController;
     private SlimePlugin slimePlugin;
+    private ArenaManager arenaManager;
 
 
 
@@ -61,6 +67,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        arenaManager.unloadArenas();
         // Plugin shutdown logic
     }
 
@@ -73,6 +80,7 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         simplePlayerGuiController = new SimplePlayerGuiController(this,new SimplePlayerGuiView());
         cuboidController = new CuboidController(this);
         slimePlugin = (SlimePlugin) Bukkit.getPluginManager().getPlugin("SlimeWorldManager");
+        arenaManager = new ArenaManager(new HashMap<>(),this,new HashMap<>());
     }
     private void setupConfigDir() {
         this.saveDefaultConfig();
@@ -85,6 +93,13 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new SpawnListener(spawnController,this),this);
         Bukkit.getServer().getPluginManager().registerEvents(new CoolScoreboardListener(coolScoreBoardController),this);
         Bukkit.getServer().getPluginManager().registerEvents(new CuboidListener(cuboidController),this);
+
+
+        getServer().getPluginManager().registerEvents(new ArenaSetupListener(arenaManager), this);
+        getServer().getPluginManager().registerEvents(new ArenaStateChangeListener(),this);
+        getServer().getPluginManager().registerEvents(new ArenaJoinQuitListener(),this);
+        getServer().getPluginManager().registerEvents(new ArenaFightStartListener(),this);
+
     }
 
     public File getMapsFolder() {
@@ -110,5 +125,8 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         //area playing
         Bukkit.getServer().getPluginCommand("setloc").setExecutor(new CuboidCommand(cuboidController));
         Bukkit.getServer().getPluginCommand("test").setExecutor(new TestCommand(slimePlugin,this));
+
+        //arena
+        Bukkit.getServer().getPluginCommand("arena").setExecutor(new ArenaSetupCommand(arenaManager));
     }
 }
