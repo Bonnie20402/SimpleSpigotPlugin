@@ -24,9 +24,13 @@ import bonnie20402.simplespigotplugin.guiviews.SimplePlayerGuiView;
 import bonnie20402.simplespigotplugin.listeners.cuboid.CuboidListener;
 import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.ArenaFightStartListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.ArenaJoinQuitListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.ArenaStateChangeListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaDeathListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaFightStartListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaJoinQuitListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaStateChangeListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.vanilla.BlockBreakListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.vanilla.EntityDamageListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.vanilla.PlayerQuitListener;
 import bonnie20402.simplespigotplugin.models.arena.manager.ArenaManager;
 import bonnie20402.simplespigotplugin.models.arena.setup.ArenaSetupCommand;
 import bonnie20402.simplespigotplugin.models.arena.setup.ArenaSetupListener;
@@ -95,10 +99,19 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new CuboidListener(cuboidController),this);
 
 
+
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(arenaManager),this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListener(arenaManager),this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(arenaManager),this);
+
         getServer().getPluginManager().registerEvents(new ArenaSetupListener(arenaManager), this);
-        getServer().getPluginManager().registerEvents(new ArenaStateChangeListener(),this);
+
+
+        //custom events
+        getServer().getPluginManager().registerEvents(new ArenaStateChangeListener(arenaManager),this);
         getServer().getPluginManager().registerEvents(new ArenaJoinQuitListener(),this);
         getServer().getPluginManager().registerEvents(new ArenaFightStartListener(),this);
+        getServer().getPluginManager().registerEvents(new ArenaDeathListener(),this);
 
     }
 

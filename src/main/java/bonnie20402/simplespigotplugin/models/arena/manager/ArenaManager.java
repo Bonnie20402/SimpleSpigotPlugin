@@ -52,6 +52,14 @@ public class ArenaManager {
         return arenas.get(arenaName);
     }
 
+    public void unloadArena(ArenaModel arenaModel) {
+        Bukkit.getServer().unloadWorld(arenaModel.getArenaWorld(),false);
+        arenas.remove(arenaModel.getArenaName());
+    }
+    public void reloadArena(ArenaModel arenaModel) {
+        this.unloadArena(arenaModel);
+        this.addArena(arenaModel);
+    }
     public void addArena(ArenaModel arenaModel) {
         arenaModel.initTransientFields(plugin);
         arenas.put(arenaModel.getArenaName(),arenaModel);
@@ -74,7 +82,9 @@ public class ArenaManager {
 
 
     public boolean isPlayerOnArena(Player player) {
-        return getPlayerArena(player) == null;
+        ArenaModel arenaModel;
+        arenaModel = this.getPlayerArena(player);
+        return arenaModel != null;
     }
     public ArenaModel getPlayerArena(Player player) {
         return (ArenaModel) player.getMetadata("currentArena").get(0).value();

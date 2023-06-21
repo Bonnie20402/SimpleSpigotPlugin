@@ -1,4 +1,4 @@
-package bonnie20402.simplespigotplugin.models.arena.listeners;
+package bonnie20402.simplespigotplugin.models.arena.listeners.arena;
 
 import bonnie20402.simplespigotplugin.models.arena.ArenaModel;
 import bonnie20402.simplespigotplugin.models.arena.events.ArenaFightStartEvent;
@@ -16,7 +16,5 @@ public class ArenaFightStartListener implements Listener {
         p1.teleport(arenaModel.getP1Spawn());
         p2.teleport(arenaModel.getP2Spawn());
 
-        arenaFightStartEvent.setP1Message("Good luck fighting " + p2.getName());
-        arenaFightStartEvent.setP2Message("Good luck fighting " + p1.getName());
     }
 }

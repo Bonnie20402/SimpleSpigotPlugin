@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class TestCommand implements CommandExecutor {
-
     private final SlimePlugin slimePlugin;
     private final Plugin plugin;
     public TestCommand(SlimePlugin slimePlugin,Plugin plugin) {
