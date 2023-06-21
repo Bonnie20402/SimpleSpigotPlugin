@@ -18,19 +18,23 @@ public class ArenaStateChangeListener implements Listener {
         ArenaState oldState = arenaStateChangeEvent.getOldState();
         ArenaState newState = arenaStateChangeEvent.getNewState();
 
+        if( oldState == newState ) return;
         switch( newState ) {
             case ARENA_STATE_WAITING -> {
                 if( oldState == ArenaState.ARENA_STATE_STARTING ) arenaModel.annunceMessage("Cancelled due to not enough players");
+
             }
             case ARENA_STATE_STARTING -> {
+                arenaModel.setTimer(30);
                 new BukkitRunnable() {
-                    int timer = arenaModel.getTimer();
                     @Override
                     public void run() {
-                        if(arenaModel.getTimer() == 0 && arenaModel.getPlayerAmount() > 1 ) {
+                        int timer = arenaModel.getTimer();
+                        if(timer == 0 ) {
                             ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(ArenaState.ARENA_STATE_STARTING, ArenaState.ARENA_STATE_FIGHTING, arenaModel);
                             arenaStateChangeEvent.callEvent();
                             arenaModel.setArenaState(arenaStateChangeEvent.isCancelled() ? ArenaState.ARENA_STATE_STARTING : ArenaState.ARENA_STATE_FIGHTING);
+                            this.cancel();
                         }
                         else if (arenaModel.getPlayerAmount() <= 1) {
                             ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(ArenaState.ARENA_STATE_STARTING, ArenaState.ARENA_STATE_WAITING, arenaModel);
@@ -38,7 +42,7 @@ public class ArenaStateChangeListener implements Listener {
                             arenaModel.setArenaState(arenaStateChangeEvent.isCancelled() ? ArenaState.ARENA_STATE_STARTING : ArenaState.ARENA_STATE_WAITING);
                         }
                         if( timer == 30 || timer == 15 || timer <= 5) arenaModel.annunceMessage("Starting the fight in " + timer + " second" + (timer == 1 ? "" : "s") );
-                        timer--;
+                        arenaModel.reduceTimer();
                     }
                 }.runTaskTimer(arenaModel.getPlugin(), 0L, 20L);
             }

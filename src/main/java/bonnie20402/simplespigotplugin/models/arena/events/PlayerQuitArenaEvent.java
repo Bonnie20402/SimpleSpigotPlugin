@@ -38,4 +38,5 @@ public class PlayerQuitArenaEvent extends Event {
     public HandlerList getHandlers() {
         return HANDLERS;
     }
+
 }

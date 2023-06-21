@@ -17,16 +17,16 @@ public class ArenaSetup {
     }
 
     public void setLobbySpawn(Location location) {
-        this.arenaModel.setLobbyLoc( new SimpleLocation(location.getX(), location.y(), location.getZ()) );
+        this.arenaModel.setLobbyLoc( new SimpleLocation(location.getX(), location.y(), location.getZ(), location.getYaw(), location.getPitch()) );
         updateWorld(location);
     }
 
     public void setP1Spawn(Location location) {
-        this.arenaModel.setP1Loc( new SimpleLocation(location.getX(), location.y(), location.getZ()) );
+        this.arenaModel.setP1Loc( new SimpleLocation(location.getX(), location.y(), location.getZ(), location.getYaw(), location.getPitch()) );
         updateWorld(location);
     }
     public void setP2Spawn(Location location) {
-        this.arenaModel.setP2Loc( new SimpleLocation(location.getX(), location.y(), location.getZ()) );
+        this.arenaModel.setP2Loc( new SimpleLocation(location.getX(), location.y(), location.getZ(), location.getYaw(), location.getPitch()) );
         updateWorld(location);
     }
 

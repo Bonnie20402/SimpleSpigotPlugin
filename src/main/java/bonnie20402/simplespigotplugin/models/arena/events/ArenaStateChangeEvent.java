@@ -18,6 +18,9 @@ public class ArenaStateChangeEvent extends Event implements Cancellable {
         this.arenaModel = arenaModel;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
     public ArenaState getOldState() {
         return oldState;
     }
@@ -30,10 +33,6 @@ public class ArenaStateChangeEvent extends Event implements Cancellable {
         return arenaModel;
     }
 
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
 
     @Override
     public boolean isCancelled() {
@@ -43,5 +42,10 @@ public class ArenaStateChangeEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean b) {
 
+    }
+
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return HANDLERS;
     }
 }

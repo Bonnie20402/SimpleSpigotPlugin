@@ -4,13 +4,10 @@ import bonnie20402.simplespigotplugin.models.arena.ArenaModel;
 import bonnie20402.simplespigotplugin.models.arena.events.PlayerJoinArenaEvent;
 import bonnie20402.simplespigotplugin.models.arena.events.PlayerQuitArenaEvent;
 import bonnie20402.simplespigotplugin.models.arena.setup.ArenaSetup;
-import bonnie20402.simplespigotplugin.utils.SimpleLocation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -53,17 +50,6 @@ public class ArenaManager {
     }
     public ArenaModel getArena(String arenaName) {
         return arenas.get(arenaName);
-    }
-    public void addArena(World templateWorld, String name, Location lobbyLoc, Location p1Loc, Location p2Loc) {
-        ArenaModel arenaModel = new ArenaModel();
-        arenaModel.setArenaTemplate(templateWorld.getName());
-        arenaModel.setArenaName(name);
-        arenaModel.setLobbyLoc( new SimpleLocation(lobbyLoc.getX(), lobbyLoc.getY(),lobbyLoc.getZ()) );
-        arenaModel.setP1Loc( new SimpleLocation(p1Loc.getX(), p1Loc.getY(),p1Loc.getZ()) );
-        arenaModel.setP2Loc( new SimpleLocation(p2Loc.getX(), p2Loc.getY(),p2Loc.getZ()) );
-        arenaModel.initTransientFields(plugin);
-        arenas.put(arenaModel.getArenaName(),arenaModel);
-        saveArena(arenaModel);
     }
 
     public void addArena(ArenaModel arenaModel) {

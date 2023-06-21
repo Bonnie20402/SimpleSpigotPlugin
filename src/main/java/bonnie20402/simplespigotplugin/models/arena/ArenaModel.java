@@ -51,13 +51,15 @@ public class ArenaModel {
     }
     public void initTransientFields(Plugin plugin) {
         this.plugin = plugin;
-        createWorld();
         this.currentPlayers = new ArrayList<>();
-        this.arenaWorld = getServer().getWorld(this.arenaName);
-        this.setLobbySpawn( new Location(arenaWorld,lobbyLoc.getX(),lobbyLoc.getY(),lobbyLoc.getZ()) );
-        this.setP1Spawn( new Location(arenaWorld,p1Loc.getX(),p1Loc.getY(),p1Loc.getZ()) );
-        this.setP2Spawn( new Location(arenaWorld,p2Loc.getX(),p2Loc.getY(),p2Loc.getZ()) );
-        this.arenaState = ArenaState.ARENA_STATE_WAITING;
+        createWorld();
+        this.arenaWorld = Bukkit.getWorld( this.getArenaName() );
+        this.lobbySpawn = new Location(arenaWorld, getLobbyLoc().getX(), getLobbyLoc().getY(), getLobbyLoc().getZ(), getLobbyLoc().getYaw(), getLobbyLoc().getPitch() );
+        this.p1Spawn = new Location(arenaWorld,getP1Loc().getX(), getP1Loc().getY(), getP1Loc().getZ(), getP1Loc().getYaw(), getP1Loc().getPitch() );
+        this.p2Spawn = new Location(arenaWorld,getP2Loc().getX(), getP2Loc().getY(), getP2Loc().getZ(), getP1Loc().getYaw(), getP2Loc().getPitch() );
+        ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent( this.getArenaState(), ArenaState.ARENA_STATE_WAITING,this);
+        arenaStateChangeEvent.callEvent();
+        this.setArenaState(ArenaState.ARENA_STATE_WAITING);
     }
     public String getArenaTemplate() {
         return arenaTemplate;
@@ -78,6 +80,8 @@ public class ArenaModel {
     public int getTimer() {
         return timer;
     }
+
+    public void reduceTimer() { this.timer--; }
 
     public void setTimer(int timer) {
         this.timer = timer;
@@ -167,21 +171,5 @@ public class ArenaModel {
 
     public void setP2Spawn(Location p2Spawn) {
         this.p2Spawn = p2Spawn;
-    }
-
-    public void runStateLogic() {
-        switch (arenaState) {
-            case ARENA_STATE_WAITING -> {
-                if( this.getPlayerAmount() >= 2 ) {
-                    ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(ArenaState.ARENA_STATE_WAITING,ArenaState.ARENA_STATE_STARTING,this);
-                    arenaStateChangeEvent.callEvent();
-                    this.timer = 30;
-                    arenaState = arenaStateChangeEvent.isCancelled() ? ArenaState.ARENA_STATE_WAITING : ArenaState.ARENA_STATE_STARTING;
-                }
-            }
-            case ARENA_STATE_STARTING -> {
-                    // create arenastatechangevbent from wait to start
-            }
-        }
     }
 }

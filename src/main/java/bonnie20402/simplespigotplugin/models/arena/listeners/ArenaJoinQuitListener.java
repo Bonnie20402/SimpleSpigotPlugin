@@ -17,19 +17,20 @@ public class ArenaJoinQuitListener implements Listener {
         ArenaModel arenaModel = playerJoinArenaEvent.getArenaModel();
         Player joiningPlayer = playerJoinArenaEvent.getPlayer();
         arenaModel.getCurrentPlayers().add(joiningPlayer.getUniqueId());
-        if( arenaModel.getArenaState() == ArenaState.ARENA_STATE_WAITING ) {
-            joiningPlayer.setMetadata("locationBeforeArena", new FixedMetadataValue(arenaModel.getPlugin(), joiningPlayer.getLocation()) );
-            joiningPlayer.setMetadata("currentArena", new FixedMetadataValue(arenaModel.getPlugin(), arenaModel) );
-            joiningPlayer.teleport(arenaModel.getLobbySpawn());
-            String message = String.format("%s §ejoined the arena! (%d/2)",joiningPlayer.getName(),arenaModel.getCurrentPlayers().size() );
-            playerJoinArenaEvent.setJoinMessage(message);
-            if( arenaModel.getPlayerAmount() > 1 ) {
-                ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(arenaModel.getArenaState(),ArenaState.ARENA_STATE_STARTING,arenaModel);
-                arenaStateChangeEvent.callEvent();
-                arenaModel.setArenaState(arenaStateChangeEvent.isCancelled() ? arenaModel.getArenaState() : ArenaState.ARENA_STATE_STARTING);
+        switch( arenaModel.getArenaState() ) {
+            case ARENA_STATE_WAITING, ARENA_STATE_STARTING -> {
+                joiningPlayer.setMetadata("locationBeforeArena", new FixedMetadataValue(arenaModel.getPlugin(), joiningPlayer.getLocation()) );
+                joiningPlayer.setMetadata("currentArena", new FixedMetadataValue(arenaModel.getPlugin(), arenaModel) );
+                joiningPlayer.teleport(arenaModel.getLobbySpawn());
+                String message = String.format("%s §ejoined the arena! (%d/2)",joiningPlayer.getName(),arenaModel.getCurrentPlayers().size() );
+                playerJoinArenaEvent.setJoinMessage(message);
+                if( arenaModel.getPlayerAmount() > 1 ) {
+                    ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(arenaModel.getArenaState(),ArenaState.ARENA_STATE_STARTING,arenaModel);
+                    arenaStateChangeEvent.callEvent();
+                    arenaModel.setArenaState(arenaStateChangeEvent.isCancelled() ? arenaModel.getArenaState() : ArenaState.ARENA_STATE_STARTING);
+                }
             }
         }
-
     }
 
     @EventHandler
@@ -37,12 +38,11 @@ public class ArenaJoinQuitListener implements Listener {
         ArenaModel arenaModel = playerQuitArenaEvent.getArenaModel();
         Player quittingPlayer = playerQuitArenaEvent.getPlayer();
         arenaModel.getCurrentPlayers().remove(quittingPlayer.getUniqueId());
-
         quittingPlayer.removeMetadata("currentArena", arenaModel.getPlugin());
         quittingPlayer.teleport( (Location) quittingPlayer.getMetadata("locationBeforeArena").get(0).value() );
         quittingPlayer.removeMetadata("locationBeforeArena", arenaModel.getPlugin());
         switch( arenaModel.getArenaState() ) {
-            case ARENA_STATE_WAITING -> {
+            case ARENA_STATE_WAITING, ARENA_STATE_STARTING -> {
                 String message = String.format("%s §eleft the arena! (%d/2)",quittingPlayer.getName(),arenaModel.getCurrentPlayers().size() );
                 playerQuitArenaEvent.setQuitMessage(message);
                 if( arenaModel.getPlayerAmount() <= 1 ) {

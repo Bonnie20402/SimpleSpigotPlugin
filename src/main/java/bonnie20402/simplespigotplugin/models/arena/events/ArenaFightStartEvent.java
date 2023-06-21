@@ -33,6 +33,9 @@ public class ArenaFightStartEvent extends Event {
     public String getP1Message() {
         return p1Message;
     }
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
 
     public void setP1Message(String p1Message) {
         this.p1Message = p1Message;
