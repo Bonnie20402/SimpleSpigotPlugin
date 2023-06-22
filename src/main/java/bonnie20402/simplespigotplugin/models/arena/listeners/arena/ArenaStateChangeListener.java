@@ -64,6 +64,7 @@ public class ArenaStateChangeListener implements Listener {
             }
 
             case ARENA_STATE_FINISHED -> {
+                arenaModel.getPlugin().getLogger().info("FIRE FINISHED");
                 //TODO: fix this event being spam fired from something to finished
                 arenaModel.setTimer(10);
                 new BukkitRunnable() {

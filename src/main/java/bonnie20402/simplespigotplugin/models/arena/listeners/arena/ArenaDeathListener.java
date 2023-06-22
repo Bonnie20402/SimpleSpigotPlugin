@@ -19,6 +19,8 @@ public class ArenaDeathListener implements Listener {
         if( arenaModel.getArenaState() == ArenaState.ARENA_STATE_FIGHTING ) {
             ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(arenaModel.getArenaState(),ArenaState.ARENA_STATE_FINISHED,arenaModel);
             arenaStateChangeEvent.callEvent();
+            arenaModel.setArenaState(ArenaState.ARENA_STATE_FINISHED);
+
 
             victim.getInventory().clear();
             victim.setHealth(20);

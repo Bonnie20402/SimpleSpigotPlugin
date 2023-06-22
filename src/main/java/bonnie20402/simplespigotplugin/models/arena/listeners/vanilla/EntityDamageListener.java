@@ -25,7 +25,6 @@ public class EntityDamageListener implements Listener {
                 entityDamageEvent.setCancelled(true);
             }
             else if( entityDamageEvent.getFinalDamage() >= victim.getHealth() ) {
-                //right here the error fires
                 entityDamageEvent.setCancelled(true);
                 ArenaDeathEvent arenaDeathEvent = new ArenaDeathEvent(arenaModel,victim);
                 arenaDeathEvent.callEvent();
