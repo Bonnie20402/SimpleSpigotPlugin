@@ -50,7 +50,8 @@ public class ArenaSetupCommand implements CommandExecutor {
             }
             case "goto" -> {
                 if( arenaManager.arenaExists(args[1]) ) arenaManager.teleportToArena(player,args[1]);
-                else player.sendMessage("The arena named " + args[1] + " does not exist.");
+                else if ( !arenaManager.isPlayerOnArena(player) ) player.sendMessage("The arena named " + args[1] + " does not exist.");
+                else player.sendMessage("You are already in a arena!");
             }
             case "quit" -> {
                 ArenaModel arenaModel = arenaManager.getPlayerArena(player);

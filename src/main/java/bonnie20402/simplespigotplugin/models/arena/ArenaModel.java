@@ -2,6 +2,7 @@ package bonnie20402.simplespigotplugin.models.arena;
 
 import bonnie20402.simplespigotplugin.models.arena.enums.ArenaState;
 import bonnie20402.simplespigotplugin.models.arena.events.ArenaStateChangeEvent;
+import bonnie20402.simplespigotplugin.models.arena.events.PlayerQuitArenaEvent;
 import bonnie20402.simplespigotplugin.utils.SimpleLocation;
 import com.infernalsuite.aswm.api.SlimePlugin;
 import com.infernalsuite.aswm.api.world.SlimeWorld;
@@ -10,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,8 @@ public class ArenaModel {
     private transient List<UUID> currentPlayers;
     private transient ArenaState arenaState = ArenaState.ARENA_STATE_LOADING;
     private transient World arenaWorld;
-
     private transient int timer;
-    private transient BukkitRunnable timerTask;
     private transient Plugin plugin;
-    private transient Player fighterOne,fighterTwo;
     private transient Location lobbySpawn, p1Spawn, p2Spawn;
 
 
@@ -91,6 +88,14 @@ public class ArenaModel {
         return lobbyLoc;
     }
 
+
+    public void clearArenaPlayers() {
+        for(UUID uuid : this.getCurrentPlayers()) {
+            Player player = Bukkit.getPlayer(uuid);
+            PlayerQuitArenaEvent playerQuitArenaEvent = new PlayerQuitArenaEvent(this,player);
+            playerQuitArenaEvent.callEvent();
+        }
+    }
     public void setLobbyLoc(SimpleLocation lobbyLoc) {
         this.lobbyLoc = lobbyLoc;
     }

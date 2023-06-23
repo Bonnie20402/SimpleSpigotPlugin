@@ -8,7 +8,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
@@ -53,6 +56,7 @@ public class ArenaManager {
     }
 
     public void unloadArena(ArenaModel arenaModel) {
+
         Bukkit.getServer().unloadWorld(arenaModel.getArenaWorld(),false);
         arenas.remove(arenaModel.getArenaName());
     }
@@ -130,5 +134,21 @@ public class ArenaManager {
             }
         }
         plugin.getLogger().info(quantity + " arenas have been loaded.");
+    }
+
+    public static void saveDataBeforeJoin(Player player,ArenaModel arenaModel) {
+        player.setMetadata("locationBeforeArena", new FixedMetadataValue(arenaModel.getPlugin(), player.getLocation()) );
+        player.setMetadata("currentArena", new FixedMetadataValue(arenaModel.getPlugin(), arenaModel) );
+        player.setMetadata("GMBeforeArena",new FixedMetadataValue(arenaModel.getPlugin(), player.getGameMode()));
+    }
+
+    public static void restoreDataBeforeJoin(Player player) {
+        player.teleport( (Location) player.getMetadata("locationBeforeArena").get(0).value() );
+        player.setGameMode( (GameMode) player.getMetadata("GMBeforeArena").get(0).value() );
+    }
+    public static void clearMetadata(Player player, ArenaModel arenaModel) {
+        player.removeMetadata("currentArena", arenaModel.getPlugin());
+        player.removeMetadata("locationBeforeArena", arenaModel.getPlugin());
+        player.removeMetadata("GMBeforeArena", arenaModel.getPlugin());
     }
 }

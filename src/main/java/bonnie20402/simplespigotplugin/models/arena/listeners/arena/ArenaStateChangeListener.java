@@ -34,7 +34,7 @@ public class ArenaStateChangeListener implements Listener {
                 if( oldState == ArenaState.ARENA_STATE_STARTING ) arenaModel.annunceMessage("Cancelled due to not enough players");
             }
             case ARENA_STATE_STARTING -> {
-                arenaModel.setTimer(30);
+                arenaModel.setTimer(10);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -64,25 +64,25 @@ public class ArenaStateChangeListener implements Listener {
             }
 
             case ARENA_STATE_FINISHED -> {
-                arenaModel.getPlugin().getLogger().info("FIRE FINISHED");
-                //TODO: fix this event being spam fired from something to finished
                 arenaModel.setTimer(10);
                 new BukkitRunnable() {
-                    int timer = arenaModel.getTimer();
+
                     @Override
                     public void run() {
-                        if( timer == 0 )  {
+                        if( arenaModel.getTimer() == 0 )  {
+                            Bukkit.getLogger().info("SIZE OF PLAYERS IS " + arenaModel.getCurrentPlayers().size());
                             for(UUID uuid : arenaModel.getCurrentPlayers()) {
                                 Player player = Bukkit.getPlayer(uuid);
                                 PlayerQuitArenaEvent playerQuitArenaEvent = new PlayerQuitArenaEvent(arenaModel,player);
                                 playerQuitArenaEvent.callEvent();
-
                             }
-                            arenaManager.unloadArena(arenaModel);
+                            arenaManager.reloadArena(arenaModel);
                             this.cancel();
                         }
-                        if(timer == 10 || timer <= 5) arenaModel.annunceMessage("Unloading arena in " + timer + " second" + (timer == 1 ? "" : "s"));
-                        arenaModel.reduceTimer();
+                        else {
+                            if(arenaModel.getTimer() == 10 || arenaModel.getTimer() <= 5) arenaModel.annunceMessage("Unloading arena in " + arenaModel.getTimer() + " second" + (arenaModel.getTimer() == 1 ? "" : "s"));
+                            arenaModel.reduceTimer();
+                        }
                     }
                 }.runTaskTimer(arenaModel.getPlugin(),0L,20L);
             }

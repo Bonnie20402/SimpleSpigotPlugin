@@ -24,10 +24,7 @@ import bonnie20402.simplespigotplugin.guiviews.SimplePlayerGuiView;
 import bonnie20402.simplespigotplugin.listeners.cuboid.CuboidListener;
 import bonnie20402.simplespigotplugin.listeners.scoreboard.CoolScoreboardListener;
 import bonnie20402.simplespigotplugin.listeners.spawn.SpawnListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaDeathListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaFightStartListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaJoinQuitListener;
-import bonnie20402.simplespigotplugin.models.arena.listeners.arena.ArenaStateChangeListener;
+import bonnie20402.simplespigotplugin.models.arena.listeners.arena.*;
 import bonnie20402.simplespigotplugin.models.arena.listeners.vanilla.BlockBreakListener;
 import bonnie20402.simplespigotplugin.models.arena.listeners.vanilla.EntityDamageListener;
 import bonnie20402.simplespigotplugin.models.arena.listeners.vanilla.PlayerQuitListener;
@@ -103,13 +100,13 @@ public final class SimpleSpigotPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockBreakListener(arenaManager),this);
         getServer().getPluginManager().registerEvents(new EntityDamageListener(arenaManager),this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(arenaManager),this);
-
         getServer().getPluginManager().registerEvents(new ArenaSetupListener(arenaManager), this);
 
 
         //custom events
         getServer().getPluginManager().registerEvents(new ArenaStateChangeListener(arenaManager),this);
-        getServer().getPluginManager().registerEvents(new ArenaJoinQuitListener(),this);
+        getServer().getPluginManager().registerEvents(new ArenaJoinListener(),this);
+        getServer().getPluginManager().registerEvents(new ArenaQuitListener(),this);
         getServer().getPluginManager().registerEvents(new ArenaFightStartListener(),this);
         getServer().getPluginManager().registerEvents(new ArenaDeathListener(),this);
 
