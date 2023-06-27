@@ -18,11 +18,13 @@ public class ArenaDeathListener implements Listener {
             ArenaStateChangeEvent arenaStateChangeEvent = new ArenaStateChangeEvent(arenaModel.getArenaState(),ArenaState.ARENA_STATE_FINISHED,arenaModel);
             arenaStateChangeEvent.callEvent();
             arenaModel.setArenaState(ArenaState.ARENA_STATE_FINISHED);
+            arenaModel.annunceMessage(victim.getName() + " died!");
+            for(Player player : arenaModel.getCurrentPlayers()) {
+                player.getInventory().clear();
+                player.setHealth(20);
+                player.teleport(arenaModel.getLobbySpawn());
+            }
 
-
-            victim.getInventory().clear();
-            victim.setHealth(20);
-            victim.teleport(arenaModel.getLobbySpawn());
         }
     }
 }

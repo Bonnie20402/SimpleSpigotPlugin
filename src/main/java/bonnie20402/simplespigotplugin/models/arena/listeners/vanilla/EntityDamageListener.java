@@ -17,8 +17,7 @@ public class EntityDamageListener implements Listener {
     }
     @EventHandler
     public void onEntityDamage(EntityDamageEvent entityDamageEvent) {
-        if(!(entityDamageEvent.getEntity() instanceof Player) )return;
-        Player victim = (Player) entityDamageEvent.getEntity();
+        if(!(entityDamageEvent.getEntity() instanceof Player victim) )return;
         if( arenaManager.isPlayerOnArena(victim) ) {
             ArenaModel arenaModel = arenaManager.getPlayerArena(victim);
             if( arenaModel.getArenaState() != ArenaState.ARENA_STATE_FIGHTING ) {

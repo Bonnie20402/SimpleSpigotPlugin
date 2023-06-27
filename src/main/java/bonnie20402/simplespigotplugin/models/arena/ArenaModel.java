@@ -2,7 +2,6 @@ package bonnie20402.simplespigotplugin.models.arena;
 
 import bonnie20402.simplespigotplugin.models.arena.enums.ArenaState;
 import bonnie20402.simplespigotplugin.models.arena.events.ArenaStateChangeEvent;
-import bonnie20402.simplespigotplugin.models.arena.events.PlayerQuitArenaEvent;
 import bonnie20402.simplespigotplugin.utils.SimpleLocation;
 import com.infernalsuite.aswm.api.SlimePlugin;
 import com.infernalsuite.aswm.api.world.SlimeWorld;
@@ -14,7 +13,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -23,7 +21,7 @@ public class ArenaModel {
     private SimpleLocation lobbyLoc, p1Loc, p2Loc;
     private String arenaName;
 
-    private transient List<UUID> currentPlayers;
+    private transient List<Player> currentPlayers;
     private transient ArenaState arenaState = ArenaState.ARENA_STATE_LOADING;
     private transient World arenaWorld;
     private transient int timer;
@@ -68,7 +66,7 @@ public class ArenaModel {
 
     public void annunceMessage(String message) {
         for(Player player : getServer().getOnlinePlayers()) {
-            if( currentPlayers.contains(player.getUniqueId()) ) {
+            if( currentPlayers.contains(player) ) {
                 player.sendMessage(message);
             }
         }
@@ -89,13 +87,6 @@ public class ArenaModel {
     }
 
 
-    public void clearArenaPlayers() {
-        for(UUID uuid : this.getCurrentPlayers()) {
-            Player player = Bukkit.getPlayer(uuid);
-            PlayerQuitArenaEvent playerQuitArenaEvent = new PlayerQuitArenaEvent(this,player);
-            playerQuitArenaEvent.callEvent();
-        }
-    }
     public void setLobbyLoc(SimpleLocation lobbyLoc) {
         this.lobbyLoc = lobbyLoc;
     }
@@ -124,11 +115,11 @@ public class ArenaModel {
         this.arenaName = arenaName;
     }
 
-    public List<UUID> getCurrentPlayers() {
+    public List<Player> getCurrentPlayers() {
         return currentPlayers;
     }
 
-    public void setCurrentPlayers(List<UUID> currentPlayers) {
+    public void setCurrentPlayers(List<Player> currentPlayers) {
         this.currentPlayers = currentPlayers;
     }
 

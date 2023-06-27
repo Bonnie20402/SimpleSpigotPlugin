@@ -4,15 +4,14 @@ import bonnie20402.simplespigotplugin.models.arena.ArenaModel;
 import bonnie20402.simplespigotplugin.models.arena.enums.ArenaState;
 import bonnie20402.simplespigotplugin.models.arena.events.ArenaFightStartEvent;
 import bonnie20402.simplespigotplugin.models.arena.events.ArenaStateChangeEvent;
-import bonnie20402.simplespigotplugin.models.arena.events.PlayerQuitArenaEvent;
 import bonnie20402.simplespigotplugin.models.arena.manager.ArenaManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArenaStateChangeListener implements Listener {
 
@@ -27,7 +26,6 @@ public class ArenaStateChangeListener implements Listener {
         ArenaModel arenaModel = arenaStateChangeEvent.getArenaModel();
         ArenaState oldState = arenaStateChangeEvent.getOldState();
         ArenaState newState = arenaStateChangeEvent.getNewState();
-
         if( oldState == newState ) return;
         switch( newState ) {
             case ARENA_STATE_WAITING -> {
@@ -57,8 +55,8 @@ public class ArenaStateChangeListener implements Listener {
                 }.runTaskTimer(arenaModel.getPlugin(), 0L, 20L);
             }
             case ARENA_STATE_FIGHTING -> {
-                Player p1 = Bukkit.getPlayer(arenaModel.getCurrentPlayers().get(0));
-                Player p2 = Bukkit.getPlayer(arenaModel.getCurrentPlayers().get(1));
+                Player p1 = arenaModel.getCurrentPlayers().get(0);
+                Player p2 = arenaModel.getCurrentPlayers().get(1);
                 ArenaFightStartEvent arenaFightStartEvent = new ArenaFightStartEvent(arenaModel,p1,p2);
                 arenaFightStartEvent.callEvent();
             }
@@ -66,26 +64,22 @@ public class ArenaStateChangeListener implements Listener {
             case ARENA_STATE_FINISHED -> {
                 arenaModel.setTimer(10);
                 new BukkitRunnable() {
-
                     @Override
                     public void run() {
-                        if( arenaModel.getTimer() == 0 )  {
-                            Bukkit.getLogger().info("SIZE OF PLAYERS IS " + arenaModel.getCurrentPlayers().size());
-                            for(UUID uuid : arenaModel.getCurrentPlayers()) {
-                                Player player = Bukkit.getPlayer(uuid);
-                                PlayerQuitArenaEvent playerQuitArenaEvent = new PlayerQuitArenaEvent(arenaModel,player);
-                                playerQuitArenaEvent.callEvent();
-                            }
+                        if (arenaModel.getTimer() == 0) {
+                            List<Player> playersList = new ArrayList<>(arenaModel.getCurrentPlayers());
+                            playersList.forEach(player -> arenaManager.teleportFromArena(player, arenaModel));
                             arenaManager.reloadArena(arenaModel);
                             this.cancel();
-                        }
-                        else {
-                            if(arenaModel.getTimer() == 10 || arenaModel.getTimer() <= 5) arenaModel.annunceMessage("Unloading arena in " + arenaModel.getTimer() + " second" + (arenaModel.getTimer() == 1 ? "" : "s"));
+                        } else {
+                            if (arenaModel.getTimer() == 10 || (arenaModel.getTimer() <= 5 && arenaModel.getTimer() > 0))
+                                arenaModel.annunceMessage("Unloading arena in " + arenaModel.getTimer() + " second" + (arenaModel.getTimer() == 1 ? "" : "s"));
                             arenaModel.reduceTimer();
                         }
                     }
-                }.runTaskTimer(arenaModel.getPlugin(),0L,20L);
+                }.runTaskTimer(arenaModel.getPlugin(), 0L, 20L);
             }
+
         }
     }
 }

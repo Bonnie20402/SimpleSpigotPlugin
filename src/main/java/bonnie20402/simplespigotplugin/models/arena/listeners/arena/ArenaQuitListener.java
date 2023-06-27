@@ -10,12 +10,12 @@ import org.bukkit.event.Listener;
 
 public class ArenaQuitListener implements Listener {
     @EventHandler
-    private void onArenaQuit(PlayerQuitArenaEvent playerQuitArenaEvent) {
+    public void onArenaQuit(PlayerQuitArenaEvent playerQuitArenaEvent) {
         ArenaModel arenaModel = playerQuitArenaEvent.getArenaModel();
         Player quittingPlayer = playerQuitArenaEvent.getPlayer();
         ArenaManager.restoreDataBeforeJoin(quittingPlayer);
         ArenaManager.clearMetadata(quittingPlayer,arenaModel);
-        arenaModel.getCurrentPlayers().remove(quittingPlayer.getUniqueId());
+        arenaModel.getCurrentPlayers().remove(quittingPlayer);
         switch( arenaModel.getArenaState() ) {
             case ARENA_STATE_WAITING, ARENA_STATE_STARTING -> {
                 String message = String.format("%s §eleft the arena! (%d/2)",quittingPlayer.getName(),arenaModel.getCurrentPlayers().size() );

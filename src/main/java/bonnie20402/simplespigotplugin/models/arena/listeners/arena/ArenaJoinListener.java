@@ -15,7 +15,7 @@ public class ArenaJoinListener implements Listener {
     private void onArenaJoin(PlayerJoinArenaEvent playerJoinArenaEvent) {
         ArenaModel arenaModel = playerJoinArenaEvent.getArenaModel();
         Player joiningPlayer = playerJoinArenaEvent.getPlayer();
-        arenaModel.getCurrentPlayers().add(joiningPlayer.getUniqueId());
+        arenaModel.getCurrentPlayers().add(joiningPlayer);
         switch( arenaModel.getArenaState() ) {
             case ARENA_STATE_WAITING, ARENA_STATE_STARTING -> {
                 ArenaManager.saveDataBeforeJoin(joiningPlayer,arenaModel);

@@ -12,10 +12,12 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -91,9 +93,12 @@ public class ArenaManager {
         return arenaModel != null;
     }
     public ArenaModel getPlayerArena(Player player) {
-        return (ArenaModel) player.getMetadata("currentArena").get(0).value();
+        List<MetadataValue> metadata = player.getMetadata("currentArena");
+        if (!metadata.isEmpty()) {
+            return (ArenaModel) metadata.get(0).value();
+        }
+        return null;
     }
-
     public boolean arenaExists(String arenaName) {
         return arenas.containsKey(arenaName);
     }
@@ -108,12 +113,14 @@ public class ArenaManager {
     }
 
     public void teleportFromArena(Player quittingPlayer) {
-        ArenaModel arenaModel = this.getPlayerArena(quittingPlayer);
-        PlayerQuitArenaEvent playerQuitArenaEvent = new PlayerQuitArenaEvent(arenaModel,quittingPlayer);
-        playerQuitArenaEvent.callEvent();
-        arenaModel.annunceMessage(playerQuitArenaEvent.getQuitMessage());
+        ArenaModel arenaModel = getPlayerArena(quittingPlayer);
+        teleportFromArena(quittingPlayer,arenaModel);
     }
 
+    public void teleportFromArena(Player quittingPlayer, ArenaModel arenaModel) {
+        PlayerQuitArenaEvent playerQuitArenaEvent = new PlayerQuitArenaEvent(arenaModel,quittingPlayer);
+        playerQuitArenaEvent.callEvent();
+    }
     private void load() {
         int quantity = 0;
         File folder = new File(this.getArenasFolder());
